@@ -1,134 +1,117 @@
 package com.example.KDT_bank_server_project2.manager.ControllerUser;
 
 
+
+import com.example.KDT_bank_server_project2.manager.DtoUser.AccountCreateRequestDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.AccountResponseDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.ApiResponseUser;
+import com.example.KDT_bank_server_project2.manager.DtoUser.TransactionRequestDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.Account;
 import com.example.KDT_bank_server_project2.manager.ServiceUser.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/accounts")
 @CrossOrigin(origins = "*")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     // 계좌 생성
     @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> createAccount(@Valid @RequestBody AccountCreateRequestDto requestDto) {
         try {
+            Account account = convertToEntity(requestDto);
             Account createdAccount = accountService.createAccount(account);
-            return ResponseEntity.ok(createdAccount);
+            AccountResponseDto responseDto = new AccountResponseDto(createdAccount);
+
+            return ResponseEntity.ok(ApiResponseUser.success("계좌가 성공적으로 생성되었습니다.", responseDto));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
         }
     }
 
     // 모든 계좌 조회
     @GetMapping
-    public ResponseEntity<List<Account>> getAllAccounts() {
+    public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAllAccounts() {
         List<Account> accounts = accountService.getAllAccounts();
-        return ResponseEntity.ok(accounts);
+        List<AccountResponseDto> responseDtos = accounts.stream()
+                .map(AccountResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
     }
 
     // 계좌번호로 계좌 조회
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<Account> getAccountByNumber(@PathVariable Long accountNumber) {
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> getAccountByNumber(@PathVariable Long accountNumber) {
         Optional<Account> account = accountService.getAccountByNumber(accountNumber);
-        return account.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    // 고객별 계좌 조회
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Account>> getAccountsByCustomerId(@PathVariable Long customerId) {
-        List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
-        return ResponseEntity.ok(accounts);
-    }
-
-    // 고객의 활성 계좌만 조회
-    @GetMapping("/customer/{customerId}/active")
-    public ResponseEntity<List<Account>> getActiveAccountsByCustomerId(@PathVariable Long customerId) {
-        List<Account> accounts = accountService.getActiveAccountsByCustomerId(customerId);
-        return ResponseEntity.ok(accounts);
-    }
-
-    // 계좌 잔액 조회
-    @GetMapping("/{accountNumber}/balance")
-    public ResponseEntity<BigDecimal> getAccountBalance(@PathVariable Long accountNumber) {
-        try {
-            BigDecimal balance = accountService.getAccountBalance(accountNumber);
-            return ResponseEntity.ok(balance);
-        } catch (RuntimeException e) {
+        if (account.isPresent()) {
+            AccountResponseDto responseDto = new AccountResponseDto(account.get());
+            return ResponseEntity.ok(ApiResponseUser.success(responseDto));
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
+    // 고객별 계좌 조회
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAccountsByCustomerId(@PathVariable Long customerId) {
+        List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
+        List<AccountResponseDto> responseDtos = accounts.stream()
+                .map(AccountResponseDto::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
+    }
+
     // 입금
     @PostMapping("/{accountNumber}/deposit")
-    public ResponseEntity<Account> deposit(@PathVariable Long accountNumber,
-                                           @RequestParam BigDecimal amount) {
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> deposit(@PathVariable Long accountNumber,
+                                                                      @Valid @RequestBody TransactionRequestDto requestDto) {
         try {
-            Account updatedAccount = accountService.deposit(accountNumber, amount);
-            return ResponseEntity.ok(updatedAccount);
+            Account updatedAccount = accountService.deposit(accountNumber, requestDto.getAmount());
+            AccountResponseDto responseDto = new AccountResponseDto(updatedAccount);
+
+            return ResponseEntity.ok(ApiResponseUser.success("입금이 완료되었습니다.", responseDto));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
         }
     }
 
     // 출금
     @PostMapping("/{accountNumber}/withdraw")
-    public ResponseEntity<Account> withdraw(@PathVariable Long accountNumber,
-                                            @RequestParam BigDecimal amount) {
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> withdraw(@PathVariable Long accountNumber,
+                                                                       @Valid @RequestBody TransactionRequestDto requestDto) {
         try {
-            Account updatedAccount = accountService.withdraw(accountNumber, amount);
-            return ResponseEntity.ok(updatedAccount);
+            Account updatedAccount = accountService.withdraw(accountNumber, requestDto.getAmount());
+            AccountResponseDto responseDto = new AccountResponseDto(updatedAccount);
+
+            return ResponseEntity.ok(ApiResponseUser.success("출금이 완료되었습니다.", responseDto));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
         }
     }
 
-    // 계좌 상태 변경
-    @PatchMapping("/{accountNumber}/status")
-    public ResponseEntity<Account> updateAccountStatus(@PathVariable Long accountNumber,
-                                                       @RequestParam Account.AccountStatus status) {
-        try {
-            Account updatedAccount = accountService.updateAccountStatus(accountNumber, status);
-            return ResponseEntity.ok(updatedAccount);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // 상품별 계좌 조회
-    @GetMapping("/product/{productName}")
-    public ResponseEntity<List<Account>> getAccountsByProductName(@PathVariable String productName) {
-        List<Account> accounts = accountService.getAccountsByProductName(productName);
-        return ResponseEntity.ok(accounts);
-    }
-
-    // 고객의 활성 계좌 개수 조회
-    @GetMapping("/customer/{customerId}/count")
-    public ResponseEntity<Long> getActiveAccountCountByCustomerId(@PathVariable Long customerId) {
-        long count = accountService.getActiveAccountCountByCustomerId(customerId);
-        return ResponseEntity.ok(count);
-    }
-
-    // 계좌 해지
-    @PatchMapping("/{accountNumber}/close")
-    public ResponseEntity<Account> closeAccount(@PathVariable Long accountNumber) {
-        try {
-            Account closedAccount = accountService.closeAccount(accountNumber);
-            return ResponseEntity.ok(closedAccount);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    // DTO -> Entity 변환
+    private Account convertToEntity(AccountCreateRequestDto dto) {
+        Account account = new Account();
+        account.setCustomerId(dto.getCustomerId());
+        account.setProductName(dto.getProductName());
+        account.setAmount(dto.getAmount());
+        account.setOpeningDate(dto.getOpeningDate());
+        account.setClosingDate(dto.getClosingDate());
+        account.setProductType(dto.getProductType());
+        return account;
     }
 }
-
