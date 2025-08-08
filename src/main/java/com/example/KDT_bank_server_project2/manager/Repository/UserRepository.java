@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
     // 기본 메서드들 JpaRepository가 자동 제공
     // save, findById, findAll, delete
 

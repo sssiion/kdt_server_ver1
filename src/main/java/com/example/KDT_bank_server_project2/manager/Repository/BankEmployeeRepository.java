@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BankEmployeeRepository extends JpaRepository<BankEmployee, Long> {
+public interface BankEmployeeRepository extends JpaRepository<BankEmployee, String> {
 
     Optional<BankEmployee> findByEmail(String email);
     // 이메일로 직원 찾기

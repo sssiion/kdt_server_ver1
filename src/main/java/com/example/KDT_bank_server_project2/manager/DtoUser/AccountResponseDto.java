@@ -25,7 +25,7 @@ public class AccountResponseDto {
     private BigDecimal amount;
     private LocalDate openingDate;
     private LocalDate closingDate;
-    private Account.AccountStatus status;
+    private String status;
     private String productType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -38,7 +38,7 @@ public class AccountResponseDto {
         this.amount = account.getAmount();
         this.openingDate = account.getOpeningDate();
         this.closingDate = account.getClosingDate();
-        this.status = account.getStatus();
+        this.status = account.getStatus().toString();
         this.productType = account.getProductType();
         this.createdAt = account.getCreatedAt();
         this.updatedAt = account.getUpdatedAt();

@@ -18,14 +18,14 @@ public class CustomerSummaryDto {
     private String name;
     private String email;
     private String phone;
-    private Customer.CustomerStatus status;
+    private String status;
 
     public CustomerSummaryDto(Customer customer) {
         this.id = customer.getId();
         this.name = customer.getName();
         this.email = customer.getEmail();
         this.phone = customer.getPhone();
-        this.status = customer.getStatus();
+        this.status = customer.getStatus().toString();
         System.out.println("CustomerSummaryDto 생성: " + name +
                 ", email: " + email +
                 ", status: " + status);

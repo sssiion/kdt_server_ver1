@@ -52,7 +52,9 @@ public class ProductService {
 
     // 상품 정보 수정
     public Product updateProduct(String id, Product updatedProduct) {
-        Product existingProduct = productRepository.findById(id)
+
+        Product.ProductStatus Id = Product.ProductStatus.valueOf(id.toUpperCase());
+        Product existingProduct = productRepository.findById(Id)
                 .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다: " + id));
 
         existingProduct.setProductDetail(updatedProduct.getProductDetail());

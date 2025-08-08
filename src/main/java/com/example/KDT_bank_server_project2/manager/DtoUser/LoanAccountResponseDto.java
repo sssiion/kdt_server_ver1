@@ -28,7 +28,7 @@ public class LoanAccountResponseDto {
     private BigDecimal interestRate;
     private LocalDate loanDate;
     private LocalDate maturityDate;
-    private LoanAccount.LoanStatus status;
+    private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -43,7 +43,7 @@ public class LoanAccountResponseDto {
         this.interestRate = loanAccount.getInterestRate();
         this.loanDate = loanAccount.getLoanDate();
         this.maturityDate = loanAccount.getMaturityDate();
-        this.status = loanAccount.getStatus();
+        this.status = loanAccount.getStatus().toString();
         this.createdAt = loanAccount.getCreatedAt();
         this.updatedAt = loanAccount.getUpdatedAt();
         System.out.println("LoanAccountResponseDto 생성: 대출ID " + loanId +

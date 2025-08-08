@@ -26,7 +26,7 @@ public class ProductResponseDto {
     private BigDecimal maxRate;
     private BigDecimal minRate;
     private BigDecimal limitMoney;
-    private Product.ProductStatus status;
+    private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -39,7 +39,7 @@ public class ProductResponseDto {
         this.maxRate = product.getMaxRate();
         this.minRate = product.getMinRate();
         this.limitMoney = product.getLimitMoney();
-        this.status = product.getStatus();
+        this.status = product.getStatus().toString();
         this.createdAt = product.getCreatedAt();
         this.updatedAt = product.getUpdatedAt();
         System.out.println("ProductResponseDto 생성: " + productName +

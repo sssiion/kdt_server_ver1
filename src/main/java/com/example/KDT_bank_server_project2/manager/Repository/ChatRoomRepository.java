@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
+public interface ChatRoomRepository extends JpaRepository<ChatRoom, String> {
 
     Optional<ChatRoom> findByRoomId(String roomId);
     // 룸 UUID로 채팅방 찾기

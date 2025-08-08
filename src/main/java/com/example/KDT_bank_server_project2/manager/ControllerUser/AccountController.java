@@ -67,7 +67,7 @@ public class AccountController {
 
     // 고객별 계좌 조회
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAccountsByCustomerId(@PathVariable ApiResponseUser customerId) {
+    public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAccountsByCustomerId(@PathVariable String customerId) {
         List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
         List<AccountResponseDto> responseDtos = accounts.stream()
                 .map(AccountResponseDto::new)
@@ -77,7 +77,7 @@ public class AccountController {
 
     // 입금
     @PostMapping("/{accountNumber}/deposit")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> deposit(@PathVariable ApiResponseUser accountNumber,
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> deposit(@PathVariable String accountNumber,
                                                                       @Valid @RequestBody TransactionRequestDto requestDto) {
         try {
             Account updatedAccount = accountService.deposit(accountNumber, requestDto.getAmount());
@@ -91,7 +91,7 @@ public class AccountController {
 
     // 출금
     @PostMapping("/{accountNumber}/withdraw")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> withdraw(@PathVariable ApiResponseUser accountNumber,
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> withdraw(@PathVariable String accountNumber,
                                                                        @Valid @RequestBody TransactionRequestDto requestDto) {
         try {
             Account updatedAccount = accountService.withdraw(accountNumber, requestDto.getAmount());

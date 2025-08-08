@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LoanAccountRepository extends JpaRepository<LoanAccount, Long> {
+public interface LoanAccountRepository extends JpaRepository<LoanAccount, String> {
 
     Optional<LoanAccount> findByLoanId(String loanId);
     // 대출 ID로 대출 계좌 찾기

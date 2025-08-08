@@ -29,6 +29,6 @@ public class EmployeeCreateRequestDto {
     @NotBlank(message = "부서는 필수입니다")
     private String department;
 
-    private BankEmployee.EmployeeRole role;
+    private String role;
     private String phone;
 }

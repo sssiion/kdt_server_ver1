@@ -23,7 +23,7 @@ public class CashTransactionCreateRequestDto {
     private String accountNumber;
 
     @NotNull(message = "거래 유형은 필수입니다")
-    private CashTransaction.TransactionType transactionType;
+    private String transactionType;
 
     @NotNull(message = "거래 금액은 필수입니다")
     @DecimalMin(value = "0.01", message = "거래 금액은 0보다 커야 합니다")

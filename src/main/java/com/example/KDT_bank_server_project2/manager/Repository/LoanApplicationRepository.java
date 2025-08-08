@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long> {
+public interface LoanApplicationRepository extends JpaRepository<LoanApplication, String> {
 
     List<LoanApplication> findByCustomerId(String customerId);
     // 고객 ID로 대출 신청 조회
@@ -26,6 +26,7 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
 
     List<LoanApplication> findByProductName(String productName);
     // 상품명으로 대출 신청 조회
+
 
     List<LoanApplication> findByApprovedBy(String employeeId);
     // 승인 직원으로 대출 신청 조회

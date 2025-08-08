@@ -57,7 +57,7 @@ public class LoanApplicationController {
 
     // 상태별 대출 신청 조회
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<LoanApplication>> getLoanApplicationsByStatus(@PathVariable LoanApplication.ApplicationStatus status) {
+    public ResponseEntity<List<LoanApplication>> getLoanApplicationsByStatus(@PathVariable String status) {
         List<LoanApplication> applications = loanApplicationService.getLoanApplicationsByStatus(status);
         return ResponseEntity.ok(applications);
     }

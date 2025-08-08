@@ -20,9 +20,9 @@ public class EmployeeResponseDto {
     private String name;
     private String email;
     private String department;
-    private BankEmployee.EmployeeRole role;
+    private String role;
     private String phone;
-    private BankEmployee.EmployeeStatus status;
+    private String status;
     private LocalDateTime createdAt;
 
     public EmployeeResponseDto(BankEmployee employee) {
@@ -30,9 +30,9 @@ public class EmployeeResponseDto {
         this.name = employee.getName();
         this.email = employee.getEmail();
         this.department = employee.getDepartment();
-        this.role = employee.getRole();
+        this.role = employee.getRole().toString();
         this.phone = employee.getPhone();
-        this.status = employee.getStatus();
+        this.status = employee.getStatus().toString();
         this.createdAt = employee.getCreatedAt();
         System.out.println("EmployeeResponseDto 생성: " + name +
                 ", department: " + department +

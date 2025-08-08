@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface LoanDocsRepository extends JpaRepository<LoanDocs, Long> {
+public interface LoanDocsRepository extends JpaRepository<LoanDocs, String> {
 
     List<LoanDocs> findByApplicationId(String applicationId);
     // 대출 신청 ID로 서류 조회

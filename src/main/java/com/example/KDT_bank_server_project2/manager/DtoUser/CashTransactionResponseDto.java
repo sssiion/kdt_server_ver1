@@ -19,7 +19,7 @@ public class CashTransactionResponseDto {
 
     private String transactionId;
     private String accountNumber;
-    private CashTransaction.TransactionType transactionType;
+    private String transactionType;
     private BigDecimal amount;
     private BigDecimal balanceAfterTransaction;
     private String note;
@@ -28,7 +28,7 @@ public class CashTransactionResponseDto {
     public CashTransactionResponseDto(CashTransaction transaction) {
         this.transactionId = transaction.getTransactionId();
         this.accountNumber = transaction.getAccountNumber();
-        this.transactionType = transaction.getTransactionType();
+        this.transactionType = transaction.getTransactionType().toString();
         this.amount = transaction.getAmount();
         this.balanceAfterTransaction = transaction.getBalanceAfterTransaction();
         this.note = transaction.getNote();

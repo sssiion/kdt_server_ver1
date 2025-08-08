@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, String> {
 
     Optional<Product> findByProductName(String productName);
     // 상품명으로 상품 찾기

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AgreementRepository extends JpaRepository<Agreement, Long> {
+public interface AgreementRepository extends JpaRepository<Agreement, String> {
 
     List<Agreement> findByCustomerId(String customerId);
     // 고객 ID로 약정 조회

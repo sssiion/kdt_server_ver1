@@ -22,7 +22,7 @@ public class CustomerResponseDto {
     private String phone;
     private String residentNumber;
     private String address;
-    private Customer.CustomerStatus status;
+    private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -33,7 +33,7 @@ public class CustomerResponseDto {
         this.phone = customer.getPhone();
         this.residentNumber = customer.getResidentNumber();
         this.address = customer.getAddress();
-        this.status = customer.getStatus();
+        this.status = customer.getStatus().toString();
         this.createdAt = customer.getCreatedAt();
         this.updatedAt = customer.getUpdatedAt();
         System.out.println("CustomerResponseDto 생성: " + name +

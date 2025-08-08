@@ -23,7 +23,7 @@ public class AgreementResponseDto {
     private String productName;
     private LocalDate agreementDate;
     private LocalDate expirationDate;
-    private Agreement.AgreementStatus status;
+    private String status;
     private String note;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -35,7 +35,7 @@ public class AgreementResponseDto {
         this.productName = agreement.getProductName();
         this.agreementDate = agreement.getAgreementDate();
         this.expirationDate = agreement.getExpirationDate();
-        this.status = agreement.getStatus();
+        this.status = agreement.getStatus().toString();
         this.note = agreement.getNote();
         this.createdAt = agreement.getCreatedAt();
         this.updatedAt = agreement.getUpdatedAt();

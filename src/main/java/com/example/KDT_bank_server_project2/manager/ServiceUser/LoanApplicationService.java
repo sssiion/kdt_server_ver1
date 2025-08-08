@@ -53,8 +53,8 @@ public class LoanApplicationService {
 
     // 상태별 대출 신청 조회
     @Transactional(readOnly = true)
-    public List<LoanApplication> getLoanApplicationsByStatus(LoanApplication.ApplicationStatus status) {
-        return loanApplicationRepository.findByStatus(status);
+    public List<LoanApplication> getLoanApplicationsByStatus(String status) {
+        return loanApplicationRepository.findByStatus(LoanApplication.ApplicationStatus.valueOf(status));
     }
 
     // 대기 중인 대출 신청 조회
