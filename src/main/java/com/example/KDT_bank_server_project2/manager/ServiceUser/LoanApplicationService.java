@@ -116,7 +116,7 @@ public class LoanApplicationService {
 
     // 고객의 대기 중인 대출 신청 개수 조회
     @Transactional(readOnly = true)
-    public long getPendingApplicationCountByCustomerId(String customerId) {
+    public String getPendingApplicationCountByCustomerId(String customerId) {
         return loanApplicationRepository.countPendingApplicationsByCustomerId(customerId);
     }
 

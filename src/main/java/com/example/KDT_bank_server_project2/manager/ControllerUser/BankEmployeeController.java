@@ -163,7 +163,7 @@ public class BankEmployeeController {
         employee.setEmail(dto.getEmail());
         employee.setPassword(dto.getPassword());
         employee.setDepartment(dto.getDepartment());
-        employee.setRole(dto.getRole());
+        employee.setRole(BankEmployee.EmployeeRole.valueOf(dto.getRole()));
         employee.setPhone(dto.getPhone());
         return employee;
     }

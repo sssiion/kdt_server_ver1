@@ -105,7 +105,7 @@ public class CashTransactionService {
 
     // 특정 계좌의 거래 건수 조회
     @Transactional(readOnly = true)
-    public long getTransactionCountByAccountNumber(String accountNumber) {
+    public String getTransactionCountByAccountNumber(String accountNumber) {
         return cashTransactionRepository.countByAccountNumber(accountNumber);
     }
 

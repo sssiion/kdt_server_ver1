@@ -34,7 +34,7 @@ public class CashTransactionController {
         try {
             CashTransaction transaction = cashTransactionService.createTransaction(
                     requestDto.getAccountNumber(),
-                    requestDto.getTransactionType(),
+                    CashTransaction.TransactionType.valueOf(requestDto.getTransactionType()),
                     requestDto.getAmount(),
                     requestDto.getNote()
             );

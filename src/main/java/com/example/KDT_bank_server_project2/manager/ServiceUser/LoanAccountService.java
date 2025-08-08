@@ -122,7 +122,7 @@ public class LoanAccountService {
 
     // 고객의 활성 대출 개수 조회
     @Transactional(readOnly = true)
-    public long getActiveLoanCountByCustomerId(String customerId) {
+    public String getActiveLoanCountByCustomerId(String customerId) {
         return loanAccountRepository.countActiveLoansByCustomerId(customerId);
     }
 

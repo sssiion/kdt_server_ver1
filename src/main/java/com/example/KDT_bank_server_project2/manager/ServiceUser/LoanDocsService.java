@@ -106,7 +106,7 @@ public class LoanDocsService {
 
     // 특정 대출 신청의 서류 개수 조회
     @Transactional(readOnly = true)
-    public long getLoanDocsCountByApplicationId(String applicationId) {
+    public String getLoanDocsCountByApplicationId(String applicationId) {
         return loanDocsRepository.countByApplicationId(applicationId);
     }
 

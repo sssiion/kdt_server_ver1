@@ -48,7 +48,7 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     // 대기 중인 대출 신청을 신청일순으로 조회
 
     @Query("SELECT COUNT(la) FROM LoanApplication la WHERE la.customerId = :customerId AND la.status = 'PENDING'")
-    long countPendingApplicationsByCustomerId(@Param("customerId") String customerId);
+    String countPendingApplicationsByCustomerId(@Param("customerId") String customerId);
     // 고객의 대기 중인 대출 신청 개수
 
     @Query("SELECT la FROM LoanApplication la WHERE la.requestedAmount >= :minAmount ORDER BY la.requestedAmount DESC")

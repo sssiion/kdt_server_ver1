@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
 
+	implementation("org.yaml:snakeyaml:1.33")
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-security")
@@ -32,19 +33,19 @@ dependencies {
 	implementation("org.springframework.security:spring-security-messaging")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     testImplementation("io.projectreactor:reactor-test")
-	compileOnly("org.project lombok:lombok")
-	annotationProcessor("org.project lombok:lombok")
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
 	implementation("org.apache.commons:commons-lang3:3.18.0")
 	implementation("org.springframework.kafka:spring-kafka")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
-	runtimeOnly("com.oracle.database.jdbc:odbc11")
+	runtimeOnly("com.oracle.database.jdbc:ojdbc8")  // Oracle 드라이버 이름 확인 후 변경
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.amqp:spring-rabbit-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	implementation("com.github.java faker:java faker:1.0.2")
+	implementation("com.github.javafaker:javafaker:1.0.2")  // 공백 제거, 정확한 이름
 
 }
 
