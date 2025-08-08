@@ -48,7 +48,7 @@ public class CashTransactionController {
 
     // 계좌별 거래 내역 조회
     @GetMapping("/account/{accountNumber}")
-    public ResponseEntity<ApiResponseUser<List<CashTransactionResponseDto>>> getTransactionsByAccountNumber(@PathVariable Long accountNumber) {
+    public ResponseEntity<ApiResponseUser<List<CashTransactionResponseDto>>> getTransactionsByAccountNumber(@PathVariable String accountNumber) {
         List<CashTransaction> transactions = cashTransactionService.getTransactionsByAccountNumber(accountNumber);
         List<CashTransactionResponseDto> responseDtos = transactions.stream()
                 .map(CashTransactionResponseDto::new)

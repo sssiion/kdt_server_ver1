@@ -27,7 +27,7 @@ public class CashTransactionService {
     private AccountService accountService;
 
     // 거래 기록 생성
-    public CashTransaction createTransaction(Long accountNumber, CashTransaction.TransactionType transactionType,
+    public CashTransaction createTransaction(String accountNumber, CashTransaction.TransactionType transactionType,
                                              BigDecimal amount, String note) {
         // 계좌 존재 여부 확인
         Account account = accountRepository.findByAccountNumber(accountNumber)
@@ -67,13 +67,13 @@ public class CashTransactionService {
 
     // 계좌별 거래 내역 조회
     @Transactional(readOnly = true)
-    public List<CashTransaction> getTransactionsByAccountNumber(Long accountNumber) {
+    public List<CashTransaction> getTransactionsByAccountNumber(String accountNumber) {
         return cashTransactionRepository.findByAccountNumberOrderByTransactionDateDesc(accountNumber);
     }
 
     // 계좌별 거래 내역 조회 (페이지네이션)
     @Transactional(readOnly = true)
-    public List<CashTransaction> getTransactionsByAccountNumber(Long accountNumber, Pageable pageable) {
+    public List<CashTransaction> getTransactionsByAccountNumber(String accountNumber, Pageable pageable) {
         return cashTransactionRepository.findByAccountNumberOrderByTransactionDateDesc(accountNumber, pageable);
     }
 
@@ -85,7 +85,7 @@ public class CashTransactionService {
 
     // 특정 계좌의 거래 유형별 내역 조회
     @Transactional(readOnly = true)
-    public List<CashTransaction> getTransactionsByAccountAndType(Long accountNumber,
+    public List<CashTransaction> getTransactionsByAccountAndType(String accountNumber,
                                                                  CashTransaction.TransactionType transactionType) {
         return cashTransactionRepository.findByAccountNumberAndTransactionType(accountNumber, transactionType);
     }
@@ -98,20 +98,20 @@ public class CashTransactionService {
 
     // 특정 계좌의 기간별 거래 내역 조회
     @Transactional(readOnly = true)
-    public List<CashTransaction> getTransactionsByAccountAndDateRange(Long accountNumber,
+    public List<CashTransaction> getTransactionsByAccountAndDateRange(String accountNumber,
                                                                       LocalDateTime startDate, LocalDateTime endDate) {
         return cashTransactionRepository.findByAccountNumberAndTransactionDateBetween(accountNumber, startDate, endDate);
     }
 
     // 특정 계좌의 거래 건수 조회
     @Transactional(readOnly = true)
-    public long getTransactionCountByAccountNumber(Long accountNumber) {
+    public long getTransactionCountByAccountNumber(String accountNumber) {
         return cashTransactionRepository.countByAccountNumber(accountNumber);
     }
 
     // 특정 기간 동안 거래 유형별 총액 조회
     @Transactional(readOnly = true)
-    public BigDecimal getTotalAmountByTypeAndPeriod(Long accountNumber, CashTransaction.TransactionType transactionType,
+    public BigDecimal getTotalAmountByTypeAndPeriod(String accountNumber, CashTransaction.TransactionType transactionType,
                                                     LocalDateTime startDate, LocalDateTime endDate) {
         BigDecimal totalAmount = cashTransactionRepository.getTotalAmountByTypeAndPeriod(
                 accountNumber, transactionType, startDate, endDate);
@@ -126,19 +126,19 @@ public class CashTransactionService {
 
     // 특정 계좌의 최근 거래 조회
     @Transactional(readOnly = true)
-    public CashTransaction getLatestTransactionByAccountNumber(Long accountNumber) {
+    public CashTransaction getLatestTransactionByAccountNumber(String accountNumber) {
         return cashTransactionRepository.findLatestTransactionByAccountNumber(accountNumber);
     }
 
     // 최소 금액 이상 거래 조회
     @Transactional(readOnly = true)
-    public List<CashTransaction> getTransactionsByMinAmount(Long accountNumber, BigDecimal minAmount) {
+    public List<CashTransaction> getTransactionsByMinAmount(String accountNumber, BigDecimal minAmount) {
         return cashTransactionRepository.findByAccountNumberAndMinAmount(accountNumber, minAmount);
     }
 
     // 이체 처리
     @Transactional
-    public void processTransfer(Long fromAccountNumber, Long toAccountNumber, BigDecimal amount, String note) {
+    public void processTransfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount, String note) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("이체 금액은 0보다 커야 합니다");
         }

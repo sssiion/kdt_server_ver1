@@ -41,13 +41,13 @@ public class LoanApplicationService {
 
     // ID로 대출 신청 조회
     @Transactional(readOnly = true)
-    public Optional<LoanApplication> getLoanApplicationById(Long id) {
+    public Optional<LoanApplication> getLoanApplicationById(String id) {
         return loanApplicationRepository.findById(id);
     }
 
     // 고객별 대출 신청 조회
     @Transactional(readOnly = true)
-    public List<LoanApplication> getLoanApplicationsByCustomerId(Long customerId) {
+    public List<LoanApplication> getLoanApplicationsByCustomerId(String customerId) {
         return loanApplicationRepository.findByCustomerIdOrderByApplicationDateDesc(customerId);
     }
 
@@ -70,7 +70,7 @@ public class LoanApplicationService {
     }
 
     // 대출 신청 승인
-    public LoanApplication approveLoanApplication(Long applicationId, Long approverId) {
+    public LoanApplication approveLoanApplication(String applicationId, String approverId) {
         LoanApplication application = loanApplicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("대출 신청을 찾을 수 없습니다: " + applicationId));
 
@@ -86,7 +86,7 @@ public class LoanApplicationService {
     }
 
     // 대출 신청 거절
-    public LoanApplication rejectLoanApplication(Long applicationId, String rejectionReason) {
+    public LoanApplication rejectLoanApplication(String applicationId, String rejectionReason) {
         LoanApplication application = loanApplicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("대출 신청을 찾을 수 없습니다: " + applicationId));
 
@@ -101,7 +101,7 @@ public class LoanApplicationService {
     }
 
     // 대출 신청 취소
-    public LoanApplication cancelLoanApplication(Long applicationId) {
+    public LoanApplication cancelLoanApplication(String applicationId) {
         LoanApplication application = loanApplicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("대출 신청을 찾을 수 없습니다: " + applicationId));
 
@@ -116,7 +116,7 @@ public class LoanApplicationService {
 
     // 고객의 대기 중인 대출 신청 개수 조회
     @Transactional(readOnly = true)
-    public long getPendingApplicationCountByCustomerId(Long customerId) {
+    public long getPendingApplicationCountByCustomerId(String customerId) {
         return loanApplicationRepository.countPendingApplicationsByCustomerId(customerId);
     }
 

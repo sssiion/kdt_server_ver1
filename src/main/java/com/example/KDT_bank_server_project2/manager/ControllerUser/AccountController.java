@@ -55,7 +55,7 @@ public class AccountController {
 
     // 계좌번호로 계좌 조회
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> getAccountByNumber(@PathVariable Long accountNumber) {
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> getAccountByNumber(@PathVariable String accountNumber) {
         Optional<Account> account = accountService.getAccountByNumber(accountNumber);
         if (account.isPresent()) {
             AccountResponseDto responseDto = new AccountResponseDto(account.get());
@@ -67,7 +67,7 @@ public class AccountController {
 
     // 고객별 계좌 조회
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAccountsByCustomerId(@PathVariable Long customerId) {
+    public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAccountsByCustomerId(@PathVariable ApiResponseUser customerId) {
         List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
         List<AccountResponseDto> responseDtos = accounts.stream()
                 .map(AccountResponseDto::new)
@@ -77,7 +77,7 @@ public class AccountController {
 
     // 입금
     @PostMapping("/{accountNumber}/deposit")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> deposit(@PathVariable Long accountNumber,
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> deposit(@PathVariable ApiResponseUser accountNumber,
                                                                       @Valid @RequestBody TransactionRequestDto requestDto) {
         try {
             Account updatedAccount = accountService.deposit(accountNumber, requestDto.getAmount());
@@ -91,7 +91,7 @@ public class AccountController {
 
     // 출금
     @PostMapping("/{accountNumber}/withdraw")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> withdraw(@PathVariable Long accountNumber,
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> withdraw(@PathVariable ApiResponseUser accountNumber,
                                                                        @Valid @RequestBody TransactionRequestDto requestDto) {
         try {
             Account updatedAccount = accountService.withdraw(accountNumber, requestDto.getAmount());

@@ -56,7 +56,7 @@ public class BankEmployeeController {
 
     // ID로 직원 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponseUser<EmployeeResponseDto>> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseUser<EmployeeResponseDto>> getEmployeeById(@PathVariable String id) {
         Optional<BankEmployee> employee = bankEmployeeService.getEmployeeById(id);
         if (employee.isPresent()) {
             EmployeeResponseDto responseDto = new EmployeeResponseDto(employee.get());
@@ -80,7 +80,7 @@ public class BankEmployeeController {
 
     // 직원 정보 수정
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponseUser<EmployeeResponseDto>> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeCreateRequestDto requestDto) {
+    public ResponseEntity<ApiResponseUser<EmployeeResponseDto>> updateEmployee(@PathVariable String id, @Valid @RequestBody EmployeeCreateRequestDto requestDto) {
         try {
             BankEmployee updateData = convertToEntity(requestDto);
             BankEmployee updatedEmployee = bankEmployeeService.updateEmployee(id, updateData);
@@ -94,7 +94,7 @@ public class BankEmployeeController {
 
     // 직원 상태 변경
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ApiResponseUser<EmployeeResponseDto>> updateEmployeeStatus(@PathVariable Long id,
+    public ResponseEntity<ApiResponseUser<EmployeeResponseDto>> updateEmployeeStatus(@PathVariable String id,
                                                                                     @RequestParam BankEmployee.EmployeeStatus status) {
         try {
             BankEmployee updatedEmployee = bankEmployeeService.updateEmployeeStatus(id, status);
@@ -147,7 +147,7 @@ public class BankEmployeeController {
 
     // 비밀번호 변경
     @PatchMapping("/{id}/password")
-    public ResponseEntity<ApiResponseUser<Void>> changePassword(@PathVariable Long id, @RequestParam String newPassword) {
+    public ResponseEntity<ApiResponseUser<Void>> changePassword(@PathVariable String id, @RequestParam String newPassword) {
         try {
             bankEmployeeService.changePassword(id, newPassword);
             return ResponseEntity.ok(ApiResponseUser.success("비밀번호가 변경되었습니다.", null));

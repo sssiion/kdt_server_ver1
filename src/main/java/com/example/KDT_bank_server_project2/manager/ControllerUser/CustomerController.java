@@ -51,7 +51,7 @@ public class CustomerController {
 
     // ID로 고객 조회 (상세 정보)
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> getCustomerById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> getCustomerById(@PathVariable String id) {
         Optional<Customer> customer = customerService.getCustomerById(id);
         if (customer.isPresent()) {
             CustomerResponseDto responseDto = new CustomerResponseDto(customer.get());
@@ -75,7 +75,7 @@ public class CustomerController {
 
     // 고객 정보 수정
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> updateCustomer(@PathVariable Long id, @Valid @RequestBody CustomerUpdateRequestDto requestDto) {
+    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> updateCustomer(@PathVariable String id, @Valid @RequestBody CustomerUpdateRequestDto requestDto) {
         try {
             Customer updateData = convertToUpdateEntity(requestDto);
             Customer updatedCustomer = customerService.updateCustomer(id, updateData);
@@ -89,7 +89,7 @@ public class CustomerController {
 
     // 고객 상태 변경
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> updateCustomerStatus(@PathVariable Long id,
+    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> updateCustomerStatus(@PathVariable String id,
                                                                                     @RequestParam Customer.CustomerStatus status) {
         try {
             Customer updatedCustomer = customerService.updateCustomerStatus(id, status);
@@ -129,7 +129,7 @@ public class CustomerController {
 
     // 고객 삭제 (비활성화)
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseUser<Void>> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseUser<Void>> deleteCustomer(@PathVariable String id) {
         try {
             customerService.deleteCustomer(id);
             return ResponseEntity.ok(ApiResponseUser.success("고객이 비활성화되었습니다.", null));

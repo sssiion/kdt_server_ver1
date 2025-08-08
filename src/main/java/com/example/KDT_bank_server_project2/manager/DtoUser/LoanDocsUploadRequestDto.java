@@ -17,7 +17,7 @@ import lombok.Setter;
 public class LoanDocsUploadRequestDto {
 
     @NotNull(message = "대출 신청 ID는 필수입니다")
-    private Long applicationId;
+    private String applicationId;
 
     private String fileType;
     private String description;

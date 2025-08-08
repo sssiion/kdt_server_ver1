@@ -26,7 +26,7 @@ public class LoanDocsService {
     private final String uploadDir = "uploads/loan-docs/"; // 파일 업로드 디렉토리
 
     // 대출 서류 업로드
-    public LoanDocs uploadLoanDocument(Long applicationId, MultipartFile file, String fileType) throws IOException {
+    public LoanDocs uploadLoanDocument(String applicationId, MultipartFile file, String fileType) throws IOException {
         if (file.isEmpty()) {
             throw new RuntimeException("파일이 비어있습니다");
         }
@@ -76,13 +76,13 @@ public class LoanDocsService {
 
     // ID로 대출 서류 조회
     @Transactional(readOnly = true)
-    public Optional<LoanDocs> getLoanDocsById(Long id) {
+    public Optional<LoanDocs> getLoanDocsById(String id) {
         return loanDocsRepository.findById(id);
     }
 
     // 대출 신청별 서류 조회
     @Transactional(readOnly = true)
-    public List<LoanDocs> getLoanDocsByApplicationId(Long applicationId) {
+    public List<LoanDocs> getLoanDocsByApplicationId(String applicationId) {
         return loanDocsRepository.findByApplicationIdOrderByUploadDateDesc(applicationId);
     }
 
@@ -94,7 +94,7 @@ public class LoanDocsService {
 
     // 대출 신청별 특정 파일 유형 서류 조회
     @Transactional(readOnly = true)
-    public List<LoanDocs> getLoanDocsByApplicationIdAndFileType(Long applicationId, String fileType) {
+    public List<LoanDocs> getLoanDocsByApplicationIdAndFileType(String applicationId, String fileType) {
         return loanDocsRepository.findByApplicationIdAndFileType(applicationId, fileType);
     }
 
@@ -106,7 +106,7 @@ public class LoanDocsService {
 
     // 특정 대출 신청의 서류 개수 조회
     @Transactional(readOnly = true)
-    public long getLoanDocsCountByApplicationId(Long applicationId) {
+    public long getLoanDocsCountByApplicationId(String applicationId) {
         return loanDocsRepository.countByApplicationId(applicationId);
     }
 
@@ -117,7 +117,7 @@ public class LoanDocsService {
     }
 
     // 서류 삭제
-    public void deleteLoanDocs(Long id) throws IOException {
+    public void deleteLoanDocs(String id) throws IOException {
         LoanDocs loanDocs = loanDocsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("서류를 찾을 수 없습니다: " + id));
 
@@ -132,7 +132,7 @@ public class LoanDocsService {
     }
 
     // 대출 신청별 모든 서류 삭제
-    public void deleteLoanDocsByApplicationId(Long applicationId) throws IOException {
+    public void deleteLoanDocsByApplicationId(String applicationId) throws IOException {
         List<LoanDocs> docsList = loanDocsRepository.findByApplicationId(applicationId);
 
         for (LoanDocs docs : docsList) {
@@ -149,7 +149,7 @@ public class LoanDocsService {
 
     // 파일 다운로드 (파일 경로 반환)
     @Transactional(readOnly = true)
-    public String getFilePathForDownload(Long id) {
+    public String getFilePathForDownload(String id) {
         LoanDocs loanDocs = loanDocsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("서류를 찾을 수 없습니다: " + id));
 

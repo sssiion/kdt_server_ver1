@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AgreementResponseDto {
 
-    private Long agreementId;
-    private Long customerId;
+    private String agreementId;
+    private String customerId;
     private String customerName;
     private String productName;
     private LocalDate agreementDate;

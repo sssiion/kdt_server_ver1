@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class AgreementCreateRequestDto {
 
     @NotNull(message = "고객 ID는 필수입니다")
-    private Long customerId;
+    private String customerId;
 
     @NotBlank(message = "상품명은 필수입니다")
     private String productName;

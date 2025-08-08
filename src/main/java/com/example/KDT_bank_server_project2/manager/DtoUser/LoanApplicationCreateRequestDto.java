@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 public class LoanApplicationCreateRequestDto {
 
     @NotNull(message = "고객 ID는 필수입니다")
-    private Long customerId;
+    private String customerId;
 
     @NotBlank(message = "상품명은 필수입니다")
     private String productName;
@@ -30,6 +30,6 @@ public class LoanApplicationCreateRequestDto {
     @DecimalMin(value = "0.01", message = "신청 금액은 0보다 커야 합니다")
     private BigDecimal requestedAmount;
 
-    private Long targetAccountNumber;
+    private String targetAccountNumber;
 }
 

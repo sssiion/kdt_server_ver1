@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 public class CashTransactionCreateRequestDto {
 
     @NotNull(message = "계좌번호는 필수입니다")
-    private Long accountNumber;
+    private String accountNumber;
 
     @NotNull(message = "거래 유형은 필수입니다")
     private CashTransaction.TransactionType transactionType;

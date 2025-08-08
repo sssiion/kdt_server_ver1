@@ -19,7 +19,7 @@ public class AccountNumberService {
     /**
      * Java 기본 기능으로 13자리 계좌번호 생성 (가장 안전함)
      */
-    public Long generateUniqueAccountNumber() {
+    public String generateUniqueAccountNumber() {
         Long accountNumber;
         int attempts = 0;
         int maxAttempts = 100;
@@ -32,9 +32,9 @@ public class AccountNumberService {
             if (attempts >= maxAttempts) {
                 throw new RuntimeException("계좌번호 생성 실패: 최대 시도 횟수 초과");
             }
-        } while (accountRepository.existsByAccountNumber(accountNumber));
+        } while (accountRepository.existsByAccountNumber(accountNumber.toString()));
 
-        return accountNumber;
+        return accountNumber.toString();
     }
 
     /**

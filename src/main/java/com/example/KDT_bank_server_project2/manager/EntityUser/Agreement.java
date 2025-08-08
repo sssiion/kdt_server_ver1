@@ -19,10 +19,10 @@ public class Agreement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "agreement_id")
-    private Long agreementId;
+    private String agreementId;
 
     @Column(name = "customer_id", nullable = false)
-    private Long customerId;
+    private String customerId;
 
     @Column(name = "product_name", nullable = false, length = 100)
     private String productName;

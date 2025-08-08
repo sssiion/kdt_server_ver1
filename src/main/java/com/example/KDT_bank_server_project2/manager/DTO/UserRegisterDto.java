@@ -1,11 +1,13 @@
 package com.example.KDT_bank_server_project2.manager.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Data
 @Getter
+@AllArgsConstructor
 @Setter
 public class UserRegisterDto {
     // 🔥 수정: 서버에서는 userId, password 필드가 없음
@@ -13,9 +15,6 @@ public class UserRegisterDto {
     private String userName;
     private String userPhone;
 
-    public UserRegisterDto(String userName, String userPhone) {
-        this.userName = userName;
-        this.userPhone = userPhone;
-    }
+
 }
 

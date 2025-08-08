@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CashTransactionResponseDto {
 
-    private Long transactionId;
-    private Long accountNumber;
+    private String transactionId;
+    private String accountNumber;
     private CashTransaction.TransactionType transactionType;
     private BigDecimal amount;
     private BigDecimal balanceAfterTransaction;

@@ -19,10 +19,10 @@ public class LoanApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "application_id")
-    private Long applicationId;
+    private String applicationId;
 
     @Column(name = "customer_id", nullable = false)
-    private Long customerId;
+    private String customerId;
 
     @Column(name = "product_name", nullable = false, length = 100)
     private String productName;
@@ -40,13 +40,13 @@ public class LoanApplication {
     private LocalDateTime approvalDate;
 
     @Column(name = "approved_by")
-    private Long approvedBy;
+    private String approvedBy;
 
     @Column(name = "rejection_reason", columnDefinition = "TEXT")
     private String rejectionReason;
 
     @Column(name = "target_account_number")
-    private Long targetAccountNumber;
+    private String targetAccountNumber;
 
     public enum ApplicationStatus {
         PENDING, APPROVED, REJECTED, CANCELLED;

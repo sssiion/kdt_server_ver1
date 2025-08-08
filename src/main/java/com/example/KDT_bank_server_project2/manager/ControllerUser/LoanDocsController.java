@@ -30,7 +30,7 @@ public class LoanDocsController {
     // 대출 서류 업로드
     @PostMapping("/upload")
     public ResponseEntity<LoanDocs> uploadLoanDocument(
-            @RequestParam Long applicationId,
+            @RequestParam String applicationId,
             @RequestParam MultipartFile file,
             @RequestParam(required = false) String fileType) {
         try {
@@ -61,7 +61,7 @@ public class LoanDocsController {
 
     // ID로 대출 서류 조회
     @GetMapping("/{id}")
-    public ResponseEntity<LoanDocs> getLoanDocsById(@PathVariable Long id) {
+    public ResponseEntity<LoanDocs> getLoanDocsById(@PathVariable String id) {
         Optional<LoanDocs> docs = loanDocsService.getLoanDocsById(id);
         return docs.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -69,7 +69,7 @@ public class LoanDocsController {
 
     // 대출 신청별 서류 조회
     @GetMapping("/application/{applicationId}")
-    public ResponseEntity<List<LoanDocs>> getLoanDocsByApplicationId(@PathVariable Long applicationId) {
+    public ResponseEntity<List<LoanDocs>> getLoanDocsByApplicationId(@PathVariable String applicationId) {
         List<LoanDocs> docsList = loanDocsService.getLoanDocsByApplicationId(applicationId);
         return ResponseEntity.ok(docsList);
     }
@@ -84,7 +84,7 @@ public class LoanDocsController {
     // 대출 신청별 특정 파일 유형 서류 조회
     @GetMapping("/application/{applicationId}/file-type/{fileType}")
     public ResponseEntity<List<LoanDocs>> getLoanDocsByApplicationIdAndFileType(
-            @PathVariable Long applicationId,
+            @PathVariable String applicationId,
             @PathVariable String fileType) {
         List<LoanDocs> docsList = loanDocsService.getLoanDocsByApplicationIdAndFileType(applicationId, fileType);
         return ResponseEntity.ok(docsList);
@@ -99,8 +99,8 @@ public class LoanDocsController {
 
     // 특정 대출 신청의 서류 개수 조회
     @GetMapping("/application/{applicationId}/count")
-    public ResponseEntity<Long> getLoanDocsCountByApplicationId(@PathVariable Long applicationId) {
-        long count = loanDocsService.getLoanDocsCountByApplicationId(applicationId);
+    public ResponseEntity<String> getLoanDocsCountByApplicationId(@PathVariable String applicationId) {
+        String count = loanDocsService.getLoanDocsCountByApplicationId(applicationId);
         return ResponseEntity.ok(count);
     }
 
@@ -115,7 +115,7 @@ public class LoanDocsController {
 
     // 서류 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLoanDocs(@PathVariable Long id) {
+    public ResponseEntity<String> deleteLoanDocs(@PathVariable String id) {
         try {
             loanDocsService.deleteLoanDocs(id);
             return ResponseEntity.ok("서류가 삭제되었습니다.");
@@ -128,7 +128,7 @@ public class LoanDocsController {
 
     // 대출 신청별 모든 서류 삭제
     @DeleteMapping("/application/{applicationId}")
-    public ResponseEntity<String> deleteLoanDocsByApplicationId(@PathVariable Long applicationId) {
+    public ResponseEntity<String> deleteLoanDocsByApplicationId(@PathVariable String applicationId) {
         try {
             loanDocsService.deleteLoanDocsByApplicationId(applicationId);
             return ResponseEntity.ok("해당 신청의 모든 서류가 삭제되었습니다.");
@@ -139,7 +139,7 @@ public class LoanDocsController {
 
     // 파일 다운로드
     @GetMapping("/{id}/download")
-    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
+    public ResponseEntity<Resource> downloadFile(@PathVariable String id) {
         try {
             String filePath = loanDocsService.getFilePathForDownload(id);
             Path path = Paths.get(filePath);

@@ -15,10 +15,10 @@ import java.util.Optional;
 @Repository
 public interface AgreementRepository extends JpaRepository<Agreement, Long> {
 
-    List<Agreement> findByCustomerId(Long customerId);
+    List<Agreement> findByCustomerId(String customerId);
     // 고객 ID로 약정 조회
 
-    List<Agreement> findByCustomerIdAndStatus(Long customerId, Agreement.AgreementStatus status);
+    List<Agreement> findByCustomerIdAndStatus(String customerId, Agreement.AgreementStatus status);
     // 고객 ID 및 상태별 약정 조회
 
     List<Agreement> findByProductName(String productName);
@@ -33,18 +33,18 @@ public interface AgreementRepository extends JpaRepository<Agreement, Long> {
     List<Agreement> findByExpirationDateBetween(LocalDate startDate, LocalDate endDate);
     // 만료일 기간으로 약정 조회
 
-    List<Agreement> findByCustomerIdOrderByAgreementDateDesc(Long customerId);
+    List<Agreement> findByCustomerIdOrderByAgreementDateDesc(String customerId);
     // 고객의 약정을 최신 체결일순으로 조회
 
     List<Agreement> findByAgreementDateBetween(LocalDate startDate, LocalDate endDate);
     // 약정 체결일 기간으로 조회
 
     @Query("SELECT a FROM Agreement a WHERE a.customerId = :customerId AND a.status = 'ACTIVE'")
-    List<Agreement> findActiveAgreementsByCustomerId(@Param("customerId") Long customerId);
+    List<Agreement> findActiveAgreementsByCustomerId(@Param("customerId") String customerId);
     // 고객의 활성 약정만 조회
 
     @Query("SELECT COUNT(a) FROM Agreement a WHERE a.customerId = :customerId AND a.status = 'ACTIVE'")
-    long countActiveAgreementsByCustomerId(@Param("customerId") Long customerId);
+    String countActiveAgreementsByCustomerId(@Param("customerId") String customerId);
     // 고객의 활성 약정 개수
 
     @Query("SELECT a FROM Agreement a WHERE a.expirationDate <= :date AND a.status = 'ACTIVE' ORDER BY a.expirationDate ASC")

@@ -43,32 +43,32 @@ public class AccountService {
 
     // 계좌번호로 계좌 조회
     @Transactional(readOnly = true)
-    public Optional<Account> getAccountByNumber(Long accountNumber) {
+    public Optional<Account> getAccountByNumber(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber);
     }
 
     // 고객별 계좌 조회
     @Transactional(readOnly = true)
-    public List<Account> getAccountsByCustomerId(Long customerId) {
+    public List<Account> getAccountsByCustomerId(String customerId) {
         return accountRepository.findByCustomerIdOrderByCreatedAtDesc(customerId);
     }
 
     // 고객의 활성 계좌만 조회
     @Transactional(readOnly = true)
-    public List<Account> getActiveAccountsByCustomerId(Long customerId) {
+    public List<Account> getActiveAccountsByCustomerId(String customerId) {
         return accountRepository.findActiveAccountsByCustomerId(customerId);
     }
 
     // 계좌 잔액 조회
     @Transactional(readOnly = true)
-    public BigDecimal getAccountBalance(Long accountNumber) {
+    public BigDecimal getAccountBalance(String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
         return account.getAmount();
     }
 
     // 계좌 잔액 업데이트
-    public Account updateAccountBalance(Long accountNumber, BigDecimal newBalance) {
+    public Account updateAccountBalance(String accountNumber, BigDecimal newBalance) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
 
@@ -81,7 +81,7 @@ public class AccountService {
     }
 
     // 입금
-    public Account deposit(Long accountNumber, BigDecimal amount) {
+    public Account deposit(String accountNumber, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("입금액은 0보다 커야 합니다");
         }
@@ -100,7 +100,7 @@ public class AccountService {
     }
 
     // 출금
-    public Account withdraw(Long accountNumber, BigDecimal amount) {
+    public Account withdraw(String accountNumber, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("출금액은 0보다 커야 합니다");
         }
@@ -123,7 +123,7 @@ public class AccountService {
     }
 
     // 계좌 상태 변경
-    public Account updateAccountStatus(Long accountNumber, Account.AccountStatus status) {
+    public Account updateAccountStatus(String accountNumber, Account.AccountStatus status) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
 
@@ -143,12 +143,12 @@ public class AccountService {
 
     // 고객의 활성 계좌 개수 조회
     @Transactional(readOnly = true)
-    public long getActiveAccountCountByCustomerId(Long customerId) {
+    public String getActiveAccountCountByCustomerId(String customerId) {
         return accountRepository.countActiveAccountsByCustomerId(customerId);
     }
 
     // 계좌 해지
-    public Account closeAccount(Long accountNumber) {
+    public Account closeAccount(String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
 

@@ -20,10 +20,10 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_number")
-    private Long accountNumber;
+    private String accountNumber;
 
     @Column(name = "customer_id", nullable = false)
-    private Long customerId;
+    private String customerId;
 
     @Column(name = "product_name", nullable = false, length = 100)
     private String productName;

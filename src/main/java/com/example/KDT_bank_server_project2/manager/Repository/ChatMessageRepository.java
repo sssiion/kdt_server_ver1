@@ -24,7 +24,7 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
     List<ChatMessage> findBySenderIdOrderBySentAtDesc(String senderId);
     // 특정 사용자가 보낸 메시지
 
-    long countByRoomUuid(String roomUuid);
+    String countByRoomUuid(String roomUuid);
     //특정 채팅방의 메시지 개수
 
 

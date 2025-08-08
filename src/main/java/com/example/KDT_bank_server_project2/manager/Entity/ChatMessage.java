@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(name = "sender_id", nullable = false)
     //하는일 : name, 실제 DB 컬럼명 지정 , unique 중복불가, nullable null 허용 여부(false: 필수입력) , length 문자열 최대 길이 설정

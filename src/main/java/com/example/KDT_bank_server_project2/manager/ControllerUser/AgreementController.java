@@ -40,7 +40,7 @@ public class AgreementController {
 
     // ID로 약정 조회
     @GetMapping("/{id}")
-    public ResponseEntity<Agreement> getAgreementById(@PathVariable Long id) {
+    public ResponseEntity<Agreement> getAgreementById(@PathVariable String id) {
         Optional<Agreement> agreement = agreementService.getAgreementById(id);
         return agreement.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -48,14 +48,14 @@ public class AgreementController {
 
     // 고객별 약정 조회
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Agreement>> getAgreementsByCustomerId(@PathVariable Long customerId) {
+    public ResponseEntity<List<Agreement>> getAgreementsByCustomerId(@PathVariable String customerId) {
         List<Agreement> agreements = agreementService.getAgreementsByCustomerId(customerId);
         return ResponseEntity.ok(agreements);
     }
 
     // 고객의 활성 약정 조회
     @GetMapping("/customer/{customerId}/active")
-    public ResponseEntity<List<Agreement>> getActiveAgreementsByCustomerId(@PathVariable Long customerId) {
+    public ResponseEntity<List<Agreement>> getActiveAgreementsByCustomerId(@PathVariable String customerId) {
         List<Agreement> agreements = agreementService.getActiveAgreementsByCustomerId(customerId);
         return ResponseEntity.ok(agreements);
     }
@@ -76,7 +76,7 @@ public class AgreementController {
 
     // 약정 정보 수정
     @PutMapping("/{id}")
-    public ResponseEntity<Agreement> updateAgreement(@PathVariable Long id, @RequestBody Agreement agreement) {
+    public ResponseEntity<Agreement> updateAgreement(@PathVariable String id, @RequestBody Agreement agreement) {
         try {
             Agreement updatedAgreement = agreementService.updateAgreement(id, agreement);
             return ResponseEntity.ok(updatedAgreement);
@@ -87,7 +87,7 @@ public class AgreementController {
 
     // 약정 상태 변경
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Agreement> updateAgreementStatus(@PathVariable Long id,
+    public ResponseEntity<Agreement> updateAgreementStatus(@PathVariable String id,
                                                            @RequestParam Agreement.AgreementStatus status) {
         try {
             Agreement updatedAgreement = agreementService.updateAgreementStatus(id, status);
@@ -99,8 +99,8 @@ public class AgreementController {
 
     // 고객의 활성 약정 개수 조회
     @GetMapping("/customer/{customerId}/count")
-    public ResponseEntity<Long> getActiveAgreementCountByCustomerId(@PathVariable Long customerId) {
-        long count = agreementService.getActiveAgreementCountByCustomerId(customerId);
+    public ResponseEntity<String> getActiveAgreementCountByCustomerId(@PathVariable String customerId) {
+        String count = agreementService.getActiveAgreementCountByCustomerId(customerId);
         return ResponseEntity.ok(count);
     }
 
@@ -138,7 +138,7 @@ public class AgreementController {
     // 약정 연장
     @PatchMapping("/{id}/extend")
     public ResponseEntity<Agreement> extendAgreement(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate newExpirationDate) {
         try {
             Agreement extendedAgreement = agreementService.extendAgreement(id, newExpirationDate);

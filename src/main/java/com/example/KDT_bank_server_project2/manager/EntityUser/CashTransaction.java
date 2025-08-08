@@ -19,10 +19,10 @@ public class CashTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
-    private Long transactionId;
+    private String transactionId;
 
     @Column(name = "account_number", nullable = false)
-    private Long accountNumber;
+    private String accountNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false)

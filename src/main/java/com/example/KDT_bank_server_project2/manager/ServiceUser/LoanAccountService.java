@@ -54,13 +54,13 @@ public class LoanAccountService {
 
     // 고객별 대출 계좌 조회
     @Transactional(readOnly = true)
-    public List<LoanAccount> getLoanAccountsByCustomerId(Long customerId) {
+    public List<LoanAccount> getLoanAccountsByCustomerId(String customerId) {
         return loanAccountRepository.findByCustomerIdOrderByLoanDateDesc(customerId);
     }
 
     // 고객의 활성 대출 계좌 조회
     @Transactional(readOnly = true)
-    public List<LoanAccount> getActiveLoansByCustomerId(Long customerId) {
+    public List<LoanAccount> getActiveLoansByCustomerId(String customerId) {
         return loanAccountRepository.findActiveLoansByCustomerId(customerId);
     }
 
@@ -115,14 +115,14 @@ public class LoanAccountService {
 
     // 고객의 총 대출 잔액 조회
     @Transactional(readOnly = true)
-    public BigDecimal getTotalLoanBalanceByCustomerId(Long customerId) {
+    public BigDecimal getTotalLoanBalanceByCustomerId(String customerId) {
         BigDecimal totalBalance = loanAccountRepository.getTotalLoanBalanceByCustomerId(customerId);
         return totalBalance != null ? totalBalance : BigDecimal.ZERO;
     }
 
     // 고객의 활성 대출 개수 조회
     @Transactional(readOnly = true)
-    public long getActiveLoanCountByCustomerId(Long customerId) {
+    public long getActiveLoanCountByCustomerId(String customerId) {
         return loanAccountRepository.countActiveLoansByCustomerId(customerId);
     }
 

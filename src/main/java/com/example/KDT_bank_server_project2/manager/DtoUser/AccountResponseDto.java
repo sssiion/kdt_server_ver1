@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AccountResponseDto {
 
-    private Long accountNumber;
-    private Long customerId;
+    private String accountNumber;
+    private String customerId;
     private String customerName;
     private String productName;
     private BigDecimal amount;

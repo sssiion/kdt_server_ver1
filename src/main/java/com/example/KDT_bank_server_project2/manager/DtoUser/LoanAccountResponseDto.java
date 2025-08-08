@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class LoanAccountResponseDto {
 
     private String loanId;
-    private Long customerId;
+    private String customerId;
     private String customerName;
     private String productName;
     private BigDecimal totalAmount;

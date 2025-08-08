@@ -48,14 +48,14 @@ public class LoanAccountController {
 
     // 고객별 대출 계좌 조회
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<LoanAccount>> getLoanAccountsByCustomerId(@PathVariable Long customerId) {
+    public ResponseEntity<List<LoanAccount>> getLoanAccountsByCustomerId(@PathVariable String customerId) {
         List<LoanAccount> loanAccounts = loanAccountService.getLoanAccountsByCustomerId(customerId);
         return ResponseEntity.ok(loanAccounts);
     }
 
     // 고객의 활성 대출 계좌 조회
     @GetMapping("/customer/{customerId}/active")
-    public ResponseEntity<List<LoanAccount>> getActiveLoansByCustomerId(@PathVariable Long customerId) {
+    public ResponseEntity<List<LoanAccount>> getActiveLoansByCustomerId(@PathVariable String customerId) {
         List<LoanAccount> loanAccounts = loanAccountService.getActiveLoansByCustomerId(customerId);
         return ResponseEntity.ok(loanAccounts);
     }
@@ -97,15 +97,15 @@ public class LoanAccountController {
 
     // 고객의 총 대출 잔액 조회
     @GetMapping("/customer/{customerId}/total-balance")
-    public ResponseEntity<BigDecimal> getTotalLoanBalanceByCustomerId(@PathVariable Long customerId) {
+    public ResponseEntity<BigDecimal> getTotalLoanBalanceByCustomerId(@PathVariable String customerId) {
         BigDecimal totalBalance = loanAccountService.getTotalLoanBalanceByCustomerId(customerId);
         return ResponseEntity.ok(totalBalance);
     }
 
     // 고객의 활성 대출 개수 조회
     @GetMapping("/customer/{customerId}/count")
-    public ResponseEntity<Long> getActiveLoanCountByCustomerId(@PathVariable Long customerId) {
-        long count = loanAccountService.getActiveLoanCountByCustomerId(customerId);
+    public ResponseEntity<String> getActiveLoanCountByCustomerId(@PathVariable String customerId) {
+        String count = loanAccountService.getActiveLoanCountByCustomerId(customerId);
         return ResponseEntity.ok(count);
     }
 

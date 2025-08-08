@@ -15,10 +15,10 @@ import java.util.List;
 @Repository
 public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long> {
 
-    List<LoanApplication> findByCustomerId(Long customerId);
+    List<LoanApplication> findByCustomerId(String customerId);
     // 고객 ID로 대출 신청 조회
 
-    List<LoanApplication> findByCustomerIdAndStatus(Long customerId, LoanApplication.ApplicationStatus status);
+    List<LoanApplication> findByCustomerIdAndStatus(String customerId, LoanApplication.ApplicationStatus status);
     // 고객 ID 및 상태별 대출 신청 조회
 
     List<LoanApplication> findByStatus(LoanApplication.ApplicationStatus status);
@@ -27,13 +27,13 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     List<LoanApplication> findByProductName(String productName);
     // 상품명으로 대출 신청 조회
 
-    List<LoanApplication> findByApprovedBy(Long employeeId);
+    List<LoanApplication> findByApprovedBy(String employeeId);
     // 승인 직원으로 대출 신청 조회
 
-    List<LoanApplication> findByTargetAccountNumber(Long accountNumber);
+    List<LoanApplication> findByTargetAccountNumber(String accountNumber);
     // 목표 계좌번호로 대출 신청 조회
 
-    List<LoanApplication> findByCustomerIdOrderByApplicationDateDesc(Long customerId);
+    List<LoanApplication> findByCustomerIdOrderByApplicationDateDesc(String customerId);
     // 고객의 대출 신청을 최신 신청일순으로 조회
 
     List<LoanApplication> findByApplicationDateBetween(LocalDateTime startDate, LocalDateTime endDate);
@@ -47,7 +47,7 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     // 대기 중인 대출 신청을 신청일순으로 조회
 
     @Query("SELECT COUNT(la) FROM LoanApplication la WHERE la.customerId = :customerId AND la.status = 'PENDING'")
-    long countPendingApplicationsByCustomerId(@Param("customerId") Long customerId);
+    long countPendingApplicationsByCustomerId(@Param("customerId") String customerId);
     // 고객의 대기 중인 대출 신청 개수
 
     @Query("SELECT la FROM LoanApplication la WHERE la.requestedAmount >= :minAmount ORDER BY la.requestedAmount DESC")

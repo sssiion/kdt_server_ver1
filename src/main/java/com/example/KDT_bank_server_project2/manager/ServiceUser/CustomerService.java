@@ -38,7 +38,7 @@ public class CustomerService {
 
     // ID로 고객 조회
     @Transactional(readOnly = true)
-    public Optional<Customer> getCustomerById(Long id) {
+    public Optional<Customer> getCustomerById(String id) {
         return customerRepository.findById(id);
     }
 
@@ -55,7 +55,7 @@ public class CustomerService {
     }
 
     // 고객 정보 수정
-    public Customer updateCustomer(Long id, Customer updatedCustomer) {
+    public Customer updateCustomer(String id, Customer updatedCustomer) {
         Customer existingCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("고객을 찾을 수 없습니다: " + id));
 
@@ -67,7 +67,7 @@ public class CustomerService {
     }
 
     // 고객 상태 변경
-    public Customer updateCustomerStatus(Long id, Customer.CustomerStatus status) {
+    public Customer updateCustomerStatus(String id, Customer.CustomerStatus status) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("고객을 찾을 수 없습니다: " + id));
 
@@ -88,7 +88,7 @@ public class CustomerService {
     }
 
     // 고객 삭제 (실제로는 비활성화)
-    public void deleteCustomer(Long id) {
+    public void deleteCustomer(String id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("고객을 찾을 수 없습니다: " + id));
 

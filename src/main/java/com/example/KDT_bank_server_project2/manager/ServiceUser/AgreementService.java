@@ -40,19 +40,19 @@ public class AgreementService {
 
     // ID로 약정 조회
     @Transactional(readOnly = true)
-    public Optional<Agreement> getAgreementById(Long id) {
+    public Optional<Agreement> getAgreementById(String id) {
         return agreementRepository.findById(id);
     }
 
     // 고객별 약정 조회
     @Transactional(readOnly = true)
-    public List<Agreement> getAgreementsByCustomerId(Long customerId) {
+    public List<Agreement> getAgreementsByCustomerId(String customerId) {
         return agreementRepository.findByCustomerIdOrderByAgreementDateDesc(customerId);
     }
 
     // 고객의 활성 약정 조회
     @Transactional(readOnly = true)
-    public List<Agreement> getActiveAgreementsByCustomerId(Long customerId) {
+    public List<Agreement> getActiveAgreementsByCustomerId(String customerId) {
         return agreementRepository.findActiveAgreementsByCustomerId(customerId);
     }
 
@@ -69,7 +69,7 @@ public class AgreementService {
     }
 
     // 약정 정보 수정
-    public Agreement updateAgreement(Long id, Agreement updatedAgreement) {
+    public Agreement updateAgreement(String id, Agreement updatedAgreement) {
         Agreement existingAgreement = agreementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("약정을 찾을 수 없습니다: " + id));
 
@@ -80,7 +80,7 @@ public class AgreementService {
     }
 
     // 약정 상태 변경
-    public Agreement updateAgreementStatus(Long id, Agreement.AgreementStatus status) {
+    public Agreement updateAgreementStatus(String id, Agreement.AgreementStatus status) {
         Agreement agreement = agreementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("약정을 찾을 수 없습니다: " + id));
 
@@ -90,7 +90,7 @@ public class AgreementService {
 
     // 고객의 활성 약정 개수 조회
     @Transactional(readOnly = true)
-    public long getActiveAgreementCountByCustomerId(Long customerId) {
+    public String getActiveAgreementCountByCustomerId(String customerId) {
         return agreementRepository.countActiveAgreementsByCustomerId(customerId);
     }
 
@@ -127,7 +127,7 @@ public class AgreementService {
     }
 
     // 약정 연장
-    public Agreement extendAgreement(Long id, LocalDate newExpirationDate) {
+    public Agreement extendAgreement(String id, LocalDate newExpirationDate) {
         Agreement agreement = agreementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("약정을 찾을 수 없습니다: " + id));
 

@@ -40,7 +40,7 @@ public class ProductService {
 
     // ID로 상품 조회
     @Transactional(readOnly = true)
-    public Optional<Product> getProductById(Long id) {
+    public Optional<Product> getProductById(String id) {
         return productRepository.findById(id);
     }
 
@@ -51,7 +51,7 @@ public class ProductService {
     }
 
     // 상품 정보 수정
-    public Product updateProduct(Long id, Product updatedProduct) {
+    public Product updateProduct(String id, Product updatedProduct) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다: " + id));
 
@@ -64,7 +64,7 @@ public class ProductService {
     }
 
     // 상품 상태 변경
-    public Product updateProductStatus(Long id, Product.ProductStatus status) {
+    public Product updateProductStatus(String id, Product.ProductStatus status) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다: " + id));
 
@@ -103,7 +103,7 @@ public class ProductService {
     }
 
     // 상품 비활성화
-    public void deactivateProduct(Long id) {
+    public void deactivateProduct(String id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다: " + id));
 

@@ -23,7 +23,7 @@ public class LoanAccount {
     private String loanId;
 
     @Column(name = "customer_id", nullable = false)
-    private Long customerId;
+    private String customerId;
 
     @Column(name = "product_name", nullable = false, length = 100)
     private String productName;

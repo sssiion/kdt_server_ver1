@@ -63,7 +63,7 @@ public class ProductController {
 
     // ID로 상품 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponseUser<ProductResponseDto>> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseUser<ProductResponseDto>> getProductById(@PathVariable String id) {
         Optional<Product> product = productService.getProductById(id);
         if (product.isPresent()) {
             ProductResponseDto responseDto = new ProductResponseDto(product.get());

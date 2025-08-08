@@ -32,7 +32,7 @@ public class BankEmployeeService {
 
     // ID로 직원 조회
     @Transactional(readOnly = true)
-    public Optional<BankEmployee> getEmployeeById(Long id) {
+    public Optional<BankEmployee> getEmployeeById(String id) {
         return bankEmployeeRepository.findById(id);
     }
 
@@ -43,7 +43,7 @@ public class BankEmployeeService {
     }
 
     // 직원 정보 수정
-    public BankEmployee updateEmployee(Long id, BankEmployee updatedEmployee) {
+    public BankEmployee updateEmployee(String id, BankEmployee updatedEmployee) {
         BankEmployee existingEmployee = bankEmployeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("직원을 찾을 수 없습니다: " + id));
 
@@ -56,7 +56,7 @@ public class BankEmployeeService {
     }
 
     // 직원 상태 변경
-    public BankEmployee updateEmployeeStatus(Long id, BankEmployee.EmployeeStatus status) {
+    public BankEmployee updateEmployeeStatus(String id, BankEmployee.EmployeeStatus status) {
         BankEmployee employee = bankEmployeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("직원을 찾을 수 없습니다: " + id));
 
@@ -89,7 +89,7 @@ public class BankEmployeeService {
     }
 
     // 비밀번호 변경
-    public void changePassword(Long id, String newPassword) {
+    public void changePassword(String id, String newPassword) {
         BankEmployee employee = bankEmployeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("직원을 찾을 수 없습니다: " + id));
 

@@ -42,7 +42,7 @@ public class LoanApplicationController {
 
     // ID로 대출 신청 조회
     @GetMapping("/{id}")
-    public ResponseEntity<LoanApplication> getLoanApplicationById(@PathVariable Long id) {
+    public ResponseEntity<LoanApplication> getLoanApplicationById(@PathVariable String id) {
         Optional<LoanApplication> application = loanApplicationService.getLoanApplicationById(id);
         return application.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -50,7 +50,7 @@ public class LoanApplicationController {
 
     // 고객별 대출 신청 조회
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<LoanApplication>> getLoanApplicationsByCustomerId(@PathVariable Long customerId) {
+    public ResponseEntity<List<LoanApplication>> getLoanApplicationsByCustomerId(@PathVariable String customerId) {
         List<LoanApplication> applications = loanApplicationService.getLoanApplicationsByCustomerId(customerId);
         return ResponseEntity.ok(applications);
     }
@@ -78,8 +78,8 @@ public class LoanApplicationController {
 
     // 대출 신청 승인
     @PatchMapping("/{applicationId}/approve")
-    public ResponseEntity<LoanApplication> approveLoanApplication(@PathVariable Long applicationId,
-                                                                  @RequestParam Long approverId) {
+    public ResponseEntity<LoanApplication> approveLoanApplication(@PathVariable String applicationId,
+                                                                  @RequestParam String approverId) {
         try {
             LoanApplication approvedApplication = loanApplicationService.approveLoanApplication(applicationId, approverId);
             return ResponseEntity.ok(approvedApplication);
@@ -90,7 +90,7 @@ public class LoanApplicationController {
 
     // 대출 신청 거절
     @PatchMapping("/{applicationId}/reject")
-    public ResponseEntity<LoanApplication> rejectLoanApplication(@PathVariable Long applicationId,
+    public ResponseEntity<LoanApplication> rejectLoanApplication(@PathVariable String applicationId,
                                                                  @RequestParam String rejectionReason) {
         try {
             LoanApplication rejectedApplication = loanApplicationService.rejectLoanApplication(applicationId, rejectionReason);
@@ -102,7 +102,7 @@ public class LoanApplicationController {
 
     // 대출 신청 취소
     @PatchMapping("/{applicationId}/cancel")
-    public ResponseEntity<LoanApplication> cancelLoanApplication(@PathVariable Long applicationId) {
+    public ResponseEntity<LoanApplication> cancelLoanApplication(@PathVariable String applicationId) {
         try {
             LoanApplication cancelledApplication = loanApplicationService.cancelLoanApplication(applicationId);
             return ResponseEntity.ok(cancelledApplication);
@@ -113,8 +113,8 @@ public class LoanApplicationController {
 
     // 고객의 대기 중인 대출 신청 개수 조회
     @GetMapping("/customer/{customerId}/pending-count")
-    public ResponseEntity<Long> getPendingApplicationCountByCustomerId(@PathVariable Long customerId) {
-        long count = loanApplicationService.getPendingApplicationCountByCustomerId(customerId);
+    public ResponseEntity<String> getPendingApplicationCountByCustomerId(@PathVariable String customerId) {
+        String count = loanApplicationService.getPendingApplicationCountByCustomerId(customerId);
         return ResponseEntity.ok(count);
     }
 

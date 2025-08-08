@@ -18,10 +18,10 @@ public class LoanDocs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doc_id")
-    private Long docId;
+    private String docId;
 
     @Column(name = "application_id", nullable = false)
-    private Long applicationId;
+    private String applicationId;
 
     @Column(name = "file_path", nullable = false, length = 500)
     private String filePath;
