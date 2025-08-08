@@ -49,7 +49,16 @@ public class CustomerController {
         return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
     }
 
-    // ID로 고객 조회 (상세 정보)
+    @GetMapping("/{name}/{number}")
+    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> getCustomerByNameAndResidentNumber(@PathVariable String name, @PathVariable String number) {
+        Customer customer = customerService.getCustomerByNameAndResidentNumber(name, number);
+        CustomerResponseDto dto = new CustomerResponseDto(customer);
+
+        return ResponseEntity.ok(ApiResponseUser.success("정보조회 성공",dto));
+    }
+    
+
+    // ID로 고객 조회 (상세 정보) 이름, 주민번호
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponseUser<CustomerResponseDto>> getCustomerById(@PathVariable String id) {
         Optional<Customer> customer = customerService.getCustomerById(id);
@@ -87,18 +96,7 @@ public class CustomerController {
         }
     }
 
-    // 고객 상태 변경
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<ApiResponseUser<CustomerResponseDto>> updateCustomerStatus(@PathVariable String id,
-                                                                                    @RequestParam Customer.CustomerStatus status) {
-        try {
-            Customer updatedCustomer = customerService.updateCustomerStatus(id, status);
-            CustomerResponseDto responseDto = new CustomerResponseDto(updatedCustomer);
-            return ResponseEntity.ok(ApiResponseUser.success("고객 상태가 변경되었습니다.", responseDto));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
-        }
-    }
+
 
     // 고객 검색
     @GetMapping("/search")
@@ -112,8 +110,8 @@ public class CustomerController {
 
     // 상태별 고객 조회
     @GetMapping("/status/{status}")
-    public ResponseEntity<ApiResponseUser<List<CustomerSummaryDto>>> getCustomersByStatus(@PathVariable Customer.CustomerStatus status) {
-        List<Customer> customers = customerService.getCustomersByStatus(status);
+    public ResponseEntity<ApiResponseUser<List<CustomerSummaryDto>>> getCustomersByStatus(@PathVariable String status) {
+        List<Customer> customers = customerService.getCustomersByStatus(Customer.CustomerStatus.valueOf(status));
         List<CustomerSummaryDto> responseDtos = customers.stream()
                 .map(CustomerSummaryDto::new)
                 .collect(Collectors.toList());
@@ -127,16 +125,7 @@ public class CustomerController {
         return ResponseEntity.ok(ApiResponseUser.success("이메일 중복 확인 완료", exists));
     }
 
-    // 고객 삭제 (비활성화)
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseUser<Void>> deleteCustomer(@PathVariable String id) {
-        try {
-            customerService.deleteCustomer(id);
-            return ResponseEntity.ok(ApiResponseUser.success("고객이 비활성화되었습니다.", null));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
-        }
-    }
+
 
     // DTO -> Entity 변환 메서드
     private Customer convertToEntity(CustomerCreateRequestDto dto) {

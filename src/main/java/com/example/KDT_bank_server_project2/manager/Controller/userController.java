@@ -25,6 +25,7 @@ public class userController {
     private final ChatRoomService roomService;
 
     @PostMapping("/register")
+    //직원 생성
     //REquestBody 클라이언트가 보낸 JSON 데이터를 java 객체로 자동 변환하는 어노테이션
     public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody UserRegisterDto dto){
         try{
@@ -52,6 +53,7 @@ public class userController {
                     .body(ApiResponse.failure(e.getMessage()));
         }
     }
+
     @GetMapping("/status")
     public ResponseEntity<ApiResponse<List<UserDataDto>>> status(){
         List<UserDataDto> dto = userService.getUserData();
@@ -83,11 +85,34 @@ public class userController {
         }
     }
     // 사용자 직책 변경
-    @GetMapping("/{userId}/change/{change}")
-    public ResponseEntity<ApiResponse<UserResponseDto>> changeUser(@PathVariable String userId, @PathVariable  String change){
+    @GetMapping("/{userId}/status/{change}")
+    public ResponseEntity<ApiResponse<UserResponseDto>> StatusUser(@PathVariable String userId, @PathVariable  String change){
         try{
             User user = userService.findByUserId(userId);
             user = userService.TypeChange(user, change);
+            UserResponseDto response = new UserResponseDto(user);
+            return ResponseEntity.ok(ApiResponse.success("사용자 조회 성공", response));
+
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("/{userId}/pw/{password}")
+    public ResponseEntity<ApiResponse<UserResponseDto>> pwChange(@PathVariable String userId, @PathVariable String password){
+        try{
+            User user = userService.findByUserId(userId);
+            user = userService.PwChange(user, password);
+            UserResponseDto response = new UserResponseDto(user);
+            return ResponseEntity.ok(ApiResponse.success("비밀번호 수정 완료", response));
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PostMapping("/{userId}/change")
+    public ResponseEntity<ApiResponse<UserResponseDto>> changeUser(@PathVariable String userId, @RequestBody  UserResponseDto dto){
+        try{
+            User user = userService.findByUserId(userId);
+            user = userService.dataChange(user, dto);
             UserResponseDto response = new UserResponseDto(user);
             return ResponseEntity.ok(ApiResponse.success("사용자 조회 성공", response));
 

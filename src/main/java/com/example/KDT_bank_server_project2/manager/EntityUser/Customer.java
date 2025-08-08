@@ -38,14 +38,7 @@ public class Customer {
     @Column(columnDefinition = "TEXT")
     private String address;
 
-    @Enumerated(EnumType.STRING)
-    private CustomerStatus status;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     public enum CustomerStatus {
         ACTIVE, INACTIVE, SUSPENDED;
@@ -60,19 +53,6 @@ public class Customer {
         }
     }
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        if (status == null) {
-            status = CustomerStatus.ACTIVE;
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
 
 }

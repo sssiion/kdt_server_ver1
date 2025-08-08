@@ -25,7 +25,6 @@ public class CustomerSummaryDto {
         this.name = customer.getName();
         this.email = customer.getEmail();
         this.phone = customer.getPhone();
-        this.status = customer.getStatus().toString();
         System.out.println("CustomerSummaryDto 생성: " + name +
                 ", email: " + email +
                 ", status: " + status);

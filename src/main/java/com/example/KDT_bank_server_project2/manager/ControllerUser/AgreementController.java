@@ -1,6 +1,7 @@
 package com.example.KDT_bank_server_project2.manager.ControllerUser;
 
 
+import com.example.KDT_bank_server_project2.manager.DtoUser.AgreementResponseDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.Agreement;
 import com.example.KDT_bank_server_project2.manager.ServiceUser.AgreementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,16 +70,16 @@ public class AgreementController {
 
     // 상태별 약정 조회
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Agreement>> getAgreementsByStatus(@PathVariable Agreement.AgreementStatus status) {
-        List<Agreement> agreements = agreementService.getAgreementsByStatus(status);
+    public ResponseEntity<List<Agreement>> getAgreementsByStatus(@PathVariable String status) {
+        List<Agreement> agreements = agreementService.getAgreementsByStatus(Agreement.AgreementStatus.valueOf(status));
         return ResponseEntity.ok(agreements);
     }
 
     // 약정 정보 수정
-    @PutMapping("/{id}")
-    public ResponseEntity<Agreement> updateAgreement(@PathVariable String id, @RequestBody Agreement agreement) {
+    @PostMapping("/{id}")
+    public ResponseEntity<Agreement> updateAgreement(@PathVariable String id, @RequestBody AgreementResponseDto dto) {
         try {
-            Agreement updatedAgreement = agreementService.updateAgreement(id, agreement);
+            Agreement updatedAgreement = agreementService.updateAgreement(id, dto);
             return ResponseEntity.ok(updatedAgreement);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -86,11 +87,11 @@ public class AgreementController {
     }
 
     // 약정 상태 변경
-    @PatchMapping("/{id}/status")
+    @PostMapping("/{id}/status")
     public ResponseEntity<Agreement> updateAgreementStatus(@PathVariable String id,
-                                                           @RequestParam Agreement.AgreementStatus status) {
+                                                           @RequestBody String status) {
         try {
-            Agreement updatedAgreement = agreementService.updateAgreementStatus(id, status);
+            Agreement updatedAgreement = agreementService.updateAgreementStatus(id, Agreement.AgreementStatus.valueOf(status));
             return ResponseEntity.ok(updatedAgreement);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -136,12 +137,12 @@ public class AgreementController {
     }
 
     // 약정 연장
-    @PatchMapping("/{id}/extend")
+    @PostMapping("/{id}/extend")
     public ResponseEntity<Agreement> extendAgreement(
             @PathVariable String id,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate newExpirationDate) {
+            @RequestBody String newExpirationDate) {
         try {
-            Agreement extendedAgreement = agreementService.extendAgreement(id, newExpirationDate);
+            Agreement extendedAgreement = agreementService.extendAgreement(id, LocalDate.parse(newExpirationDate));
             return ResponseEntity.ok(extendedAgreement);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);

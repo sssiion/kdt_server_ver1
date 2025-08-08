@@ -47,6 +47,11 @@ public class CustomerService {
     public Optional<Customer> getCustomerByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
+    @Transactional
+    public Customer getCustomerByNameAndResidentNumber(String name, String number) {
+
+        return customerRepository.findByResidentNumberAndName(name, number);
+    }
 
     // 주민번호로 고객 조회
     @Transactional(readOnly = true)
@@ -66,14 +71,7 @@ public class CustomerService {
         return customerRepository.save(existingCustomer);
     }
 
-    // 고객 상태 변경
-    public Customer updateCustomerStatus(String id, Customer.CustomerStatus status) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("고객을 찾을 수 없습니다: " + id));
 
-        customer.setStatus(status);
-        return customerRepository.save(customer);
-    }
 
     // 고객 검색
     @Transactional(readOnly = true)
@@ -87,14 +85,7 @@ public class CustomerService {
         return customerRepository.findByStatus(status);
     }
 
-    // 고객 삭제 (실제로는 비활성화)
-    public void deleteCustomer(String id) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("고객을 찾을 수 없습니다: " + id));
 
-        customer.setStatus(Customer.CustomerStatus.INACTIVE);
-        customerRepository.save(customer);
-    }
 
     // 이메일 중복 확인
     @Transactional(readOnly = true)

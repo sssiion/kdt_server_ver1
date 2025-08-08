@@ -1,6 +1,7 @@
 package com.example.KDT_bank_server_project2.manager.ServiceUser;
 
 
+import com.example.KDT_bank_server_project2.manager.DtoUser.AgreementResponseDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.Agreement;
 import com.example.KDT_bank_server_project2.manager.Repository.AgreementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,12 +70,12 @@ public class AgreementService {
     }
 
     // 약정 정보 수정
-    public Agreement updateAgreement(String id, Agreement updatedAgreement) {
+    public Agreement updateAgreement(String id, AgreementResponseDto dto) {
         Agreement existingAgreement = agreementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("약정을 찾을 수 없습니다: " + id));
 
-        existingAgreement.setExpirationDate(updatedAgreement.getExpirationDate());
-        existingAgreement.setNote(updatedAgreement.getNote());
+        existingAgreement.setExpirationDate(dto.getExpirationDate());
+        existingAgreement.setNote(dto.getNote());
 
         return agreementRepository.save(existingAgreement);
     }

@@ -1,6 +1,7 @@
 package com.example.KDT_bank_server_project2.manager.Service;
 
 import com.example.KDT_bank_server_project2.manager.DTO.UserDataDto;
+import com.example.KDT_bank_server_project2.manager.DTO.UserResponseDto;
 import com.example.KDT_bank_server_project2.manager.Entity.User;
 import com.example.KDT_bank_server_project2.manager.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,15 @@ public class UserService {
         }
         return  userDataDtos;
 
+    }
+    public User PwChange(User user, String password){
+        user.setPassword(password);
+        return userRepository.save(user);
+    }
+    public User dataChange(User user, UserResponseDto dto){
+        user.setUserName(dto.getUserName());
+        user.setUserPhone(dto.getUserPhone());
+        return userRepository.save(user);
     }
     public User TypeChange(User user, String type){
         user.setUser_authority(User.UserType.valueOf(type));
