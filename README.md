@@ -1,1 +1,0 @@
-# kdt_server_ver1
