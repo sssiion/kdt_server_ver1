@@ -2,10 +2,7 @@ package com.example.KDT_bank_server_project2.manager.ControllerUser;
 
 
 
-import com.example.KDT_bank_server_project2.manager.DtoUser.AccountCreateRequestDto;
-import com.example.KDT_bank_server_project2.manager.DtoUser.AccountResponseDto;
-import com.example.KDT_bank_server_project2.manager.DtoUser.ApiResponseUser;
-import com.example.KDT_bank_server_project2.manager.DtoUser.TransactionRequestDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.*;
 import com.example.KDT_bank_server_project2.manager.EntityUser.Account;
 import com.example.KDT_bank_server_project2.manager.ServiceUser.AccountService;
 import jakarta.validation.Valid;
@@ -52,6 +49,19 @@ public class AccountController {
 
         return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
     }
+    //고객 아이디로 고객 모든 계죄 조회
+    @GetMapping("/{costomerId}")
+    public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAccountById(@PathVariable String costomerId) {
+        List<Account> accounts = accountService.getAccountsByCustomerId(costomerId);
+        if (accounts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }else{
+            List<AccountResponseDto> dto = accounts.stream()
+                    .map(AccountResponseDto::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(ApiResponseUser.success(dto));
+        }
+    }
 
     // 계좌번호로 계좌 조회
     @GetMapping("/{accountNumber}")
@@ -76,28 +86,35 @@ public class AccountController {
     }
 
     // 입금
-    @PostMapping("/{accountNumber}/deposit")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> deposit(@PathVariable String accountNumber,
-                                                                      @Valid @RequestBody TransactionRequestDto requestDto) {
+    @PostMapping("/deposit")
+    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> deposit( @Valid @RequestBody CashTransactionResponseDto requestDto) {
         try {
-            Account updatedAccount = accountService.deposit(accountNumber, requestDto.getAmount());
-            AccountResponseDto responseDto = new AccountResponseDto(updatedAccount);
+            CashTransactionResponseDto updatedAccount = accountService.deposit(requestDto.getAccountNumber(), requestDto.getAmount());
 
-            return ResponseEntity.ok(ApiResponseUser.success("입금이 완료되었습니다.", responseDto));
+            return ResponseEntity.ok(ApiResponseUser.success("입금이 완료되었습니다.", updatedAccount));
         } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
+        }
+    }
+    //송금
+    @PostMapping("/remittance")
+    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> remittance(@Valid @RequestBody TransferRequestDto requestDto) {
+        try{
+            CashTransactionResponseDto account = accountService.remittance(requestDto);
+            return ResponseEntity.ok(ApiResponseUser.success("출금이 완료되었습니다.", account));
+        }catch(Exception e){
             return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
         }
     }
 
     // 출금
     @PostMapping("/{accountNumber}/withdraw")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> withdraw(@PathVariable String accountNumber,
-                                                                       @Valid @RequestBody TransactionRequestDto requestDto) {
+    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> withdraw(@PathVariable String accountNumber,
+                                                                       @Valid @RequestBody TransferRequestDto requestDto) {
         try {
-            Account updatedAccount = accountService.withdraw(accountNumber, requestDto.getAmount());
-            AccountResponseDto responseDto = new AccountResponseDto(updatedAccount);
+            CashTransactionResponseDto updatedAccount = accountService.withdraw(accountNumber, requestDto.getAmount());
 
-            return ResponseEntity.ok(ApiResponseUser.success("출금이 완료되었습니다.", responseDto));
+            return ResponseEntity.ok(ApiResponseUser.success("출금이 완료되었습니다.", updatedAccount));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
         }

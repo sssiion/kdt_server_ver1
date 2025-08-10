@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @Table(name = "loan_docs")
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoanDocs {
+public class LoanDocs { // 대출 문서
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doc_id")
-    private String docId;
+    private Long docId;
 
     @Column(name = "application_id", nullable = false)
     private String applicationId;

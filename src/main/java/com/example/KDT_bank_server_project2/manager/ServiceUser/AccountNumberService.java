@@ -2,19 +2,21 @@ package com.example.KDT_bank_server_project2.manager.ServiceUser;
 
 import com.example.KDT_bank_server_project2.manager.Repository.AccountRepository;
 import com.example.KDT_bank_server_project2.manager.Repository.LoanAccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class AccountNumberService {
 
-    @Autowired
-    private AccountRepository accountRepository;
 
-    @Autowired
-    private LoanAccountRepository loanAccountRepository;
+    private final AccountRepository accountRepository;
+    private final LoanAccountRepository loanAccountRepository;
 
     /**
      * Java 기본 기능으로 13자리 계좌번호 생성 (가장 안전함)

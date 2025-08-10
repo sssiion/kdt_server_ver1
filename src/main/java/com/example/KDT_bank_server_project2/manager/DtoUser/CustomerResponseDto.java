@@ -16,13 +16,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CustomerResponseDto {
 
-    private String id;
-    private String name;
-    private String email;
-    private String phone;
-    private String residentNumber;
-    private String address;
-    private String status;
+    private String id; // 사용자 아이디
+    private String name; // 사용자 이름
+    private String email; // 사용자 이메일
+    private String phone; // 사용자 번호
+    private String address; // 거주지
+    private String residentNumber; // 주민번호
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -31,12 +30,11 @@ public class CustomerResponseDto {
         this.name = customer.getName();
         this.email = customer.getEmail();
         this.phone = customer.getPhone();
-        this.residentNumber = customer.getResidentNumber();
         this.address = customer.getAddress();
+        this.residentNumber = customer.getResidentNumber();
 
         System.out.println("CustomerResponseDto 생성: " + name +
-                ", email: " + email +
-                ", status: " + status);
+                ", email: " + email );
     }
     // 기존 컨트롤러 호환을 위한 from() 메서드 추가
     public static CustomerResponseDto from(Customer customer) {

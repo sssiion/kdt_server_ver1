@@ -1,7 +1,13 @@
 package com.example.KDT_bank_server_project2.manager.ServiceUser;
 
+import com.example.KDT_bank_server_project2.manager.ControllerUser.CashTransactionController;
+import com.example.KDT_bank_server_project2.manager.DtoUser.CashTransactionCreateRequestDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.CashTransactionResponseDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.TransferRequestDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.Account;
 import com.example.KDT_bank_server_project2.manager.Repository.AccountRepository;
+import com.example.KDT_bank_server_project2.manager.Repository.CashTransactionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +18,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class AccountService {
 
-    @Autowired
-    private AccountRepository accountRepository;
 
-    @Autowired
-    private AccountNumberService accountNumberService;
+    private final AccountRepository accountRepository;
+    private final CashTransactionController  cashTransactionController;
+    private final AccountNumberService accountNumberService;
 
     // 계좌 생성
     public Account createAccount(Account account) {
@@ -53,11 +59,7 @@ public class AccountService {
         return accountRepository.findByCustomerIdOrderByCreatedAtDesc(customerId);
     }
 
-    // 고객의 활성 계좌만 조회
-    @Transactional(readOnly = true)
-    public List<Account> getActiveAccountsByCustomerId(String customerId) {
-        return accountRepository.findActiveAccountsByCustomerId(customerId);
-    }
+
 
     // 계좌 잔액 조회
     @Transactional(readOnly = true)
@@ -80,8 +82,8 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    // 입금
-    public Account deposit(String accountNumber, BigDecimal amount) {
+    // 입금 > 결과
+    public CashTransactionResponseDto deposit(String accountNumber, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("입금액은 0보다 커야 합니다");
         }
@@ -89,18 +91,22 @@ public class AccountService {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
 
-        if (account.getStatus() != Account.AccountStatus.ACTIVE) {
-            throw new RuntimeException("비활성 계좌입니다");
-        }
+        CashTransactionCreateRequestDto dto = new CashTransactionCreateRequestDto();
+        dto.setAmount(amount);
+        dto.setAccountNumber(account.getAccountNumber());
+        dto.setOtherAccountNumber("");
+        dto.setTransactionType("입금");
+        CashTransactionResponseDto textdto = cashTransactionController.createTransaction(dto);
+
 
         BigDecimal newBalance = account.getAmount().add(amount);
         account.setAmount(newBalance);
-
-        return accountRepository.save(account);
+        accountRepository.save(account);
+        return textdto;
     }
 
     // 출금
-    public Account withdraw(String accountNumber, BigDecimal amount) {
+    public CashTransactionResponseDto withdraw(String accountNumber, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("출금액은 0보다 커야 합니다");
         }
@@ -108,31 +114,32 @@ public class AccountService {
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
 
-        if (account.getStatus() != Account.AccountStatus.ACTIVE) {
-            throw new RuntimeException("비활성 계좌입니다");
-        }
 
         if (account.getAmount().compareTo(amount) < 0) {
             throw new RuntimeException("잔액이 부족합니다");
         }
 
+        CashTransactionCreateRequestDto dto = new CashTransactionCreateRequestDto();
+        dto.setAmount(amount);
+        dto.setAccountNumber(account.getAccountNumber());
+        dto.setOtherAccountNumber("");
+        dto.setTransactionType("출금");
+        CashTransactionResponseDto textdto =cashTransactionController.createTransaction(dto); // 여기에 save도 있음.
         BigDecimal newBalance = account.getAmount().subtract(amount);
         account.setAmount(newBalance);
-
-        return accountRepository.save(account);
+        accountRepository.save(account);
+        return textdto;
     }
+    //송금
+    public CashTransactionResponseDto remittance(TransferRequestDto dto) {
+        CashTransactionResponseDto account = deposit(dto.getToAccountNumber(), dto.getAmount());
+        CashTransactionResponseDto otheraccount = withdraw(dto.getFromAccountNumber(), dto.getAmount());
 
-    // 계좌 상태 변경
-    public Account updateAccountStatus(String accountNumber, Account.AccountStatus status) {
-        Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
-
-        account.setStatus(status);
-        if (status == Account.AccountStatus.CLOSED) {
-            account.setClosingDate(LocalDate.now());
-        }
-
-        return accountRepository.save(account);
+        BigDecimal newBalance = account.getAmount().subtract(dto.getAmount());
+        account.setAmount(newBalance);
+        BigDecimal otherBalance = otheraccount.getAmount().add(dto.getAmount());
+        otheraccount.setAmount(otherBalance);
+        return account;
     }
 
     // 상품별 계좌 조회
@@ -141,24 +148,5 @@ public class AccountService {
         return accountRepository.findByProductName(productName);
     }
 
-    // 고객의 활성 계좌 개수 조회
-    @Transactional(readOnly = true)
-    public String getActiveAccountCountByCustomerId(String customerId) {
-        return accountRepository.countActiveAccountsByCustomerId(customerId);
-    }
 
-    // 계좌 해지
-    public Account closeAccount(String accountNumber) {
-        Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
-
-        if (account.getAmount().compareTo(BigDecimal.ZERO) > 0) {
-            throw new RuntimeException("잔액이 남아있는 계좌는 해지할 수 없습니다");
-        }
-
-        account.setStatus(Account.AccountStatus.CLOSED);
-        account.setClosingDate(LocalDate.now());
-
-        return accountRepository.save(account);
-    }
 }

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ProductResponseDto {
 
-    private String productId;
+    private Long productId;
     private String productName;
     private String productDetail;
     private String category;
@@ -26,7 +26,7 @@ public class ProductResponseDto {
     private BigDecimal maxRate;
     private BigDecimal minRate;
     private BigDecimal limitMoney;
-    private String status;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -39,11 +39,10 @@ public class ProductResponseDto {
         this.maxRate = product.getMaxRate();
         this.minRate = product.getMinRate();
         this.limitMoney = product.getLimitMoney();
-        this.status = product.getStatus().toString();
+
         this.createdAt = product.getCreatedAt();
         this.updatedAt = product.getUpdatedAt();
         System.out.println("ProductResponseDto 생성: " + productName +
-                ", category: " + category +
-                ", status: " + status);
+                ", category: " + category);
     }
 }

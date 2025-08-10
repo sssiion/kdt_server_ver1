@@ -60,6 +60,7 @@ public class userController {
         System.out.println("반환할 데이터 개수: " + dto.size());
         return ResponseEntity.ok(ApiResponse.success("상태 전송 성공", dto));
     }
+
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<UserResponseDto>> logout(@RequestBody String userId){
         try{

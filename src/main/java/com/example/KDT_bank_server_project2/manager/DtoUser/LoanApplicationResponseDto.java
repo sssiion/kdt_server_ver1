@@ -17,36 +17,31 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class LoanApplicationResponseDto {
 
-    private String applicationId;
-    private String customerId;
-    private String customerName;
-    private String productName;
-    private BigDecimal requestedAmount;
-    private String status;
+    private Long applicationId; //
+    private String customerId; // 사용자 아이디
+    private String productName; //상품명
+    private BigDecimal requestedAmount; // 요청받은 금액
     private LocalDateTime applicationDate;
     private LocalDateTime approvalDate;
     private String approvedBy;
-    private String approverName;
     private String rejectionReason;
     private String targetAccountNumber;
 
     public LoanApplicationResponseDto(LoanApplication application) {
         this.applicationId = application.getApplicationId();
         this.customerId = application.getCustomerId();
-        this.customerName = null; // 별도로 설정 필요
+
         this.productName = application.getProductName();
         this.requestedAmount = application.getRequestedAmount();
-        this.status = application.getStatus().toString();
+
         this.applicationDate = application.getApplicationDate();
         this.approvalDate = application.getApprovalDate();
         this.approvedBy = application.getApprovedBy();
-        this.approverName = null; // 별도로 설정 필요
         this.rejectionReason = application.getRejectionReason();
         this.targetAccountNumber = application.getTargetAccountNumber();
         System.out.println("LoanApplicationResponseDto 생성: 신청ID " + applicationId +
                 ", 고객ID: " + customerId +
                 ", 상품: " + productName +
-                ", 신청금액: " + requestedAmount +
-                ", 상태: " + status);
+                ", 신청금액: " + requestedAmount );
     }
 }

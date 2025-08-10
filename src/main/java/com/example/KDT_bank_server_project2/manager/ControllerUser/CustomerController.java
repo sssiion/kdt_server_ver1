@@ -100,23 +100,15 @@ public class CustomerController {
 
     // 고객 검색
     @GetMapping("/search")
-    public ResponseEntity<ApiResponseUser<List<CustomerSummaryDto>>> searchCustomers(@RequestParam String keyword) {
+    public ResponseEntity<ApiResponseUser<List<CustomerResponseDto>>> searchCustomers(@RequestParam String keyword) {
         List<Customer> customers = customerService.searchCustomers(keyword);
-        List<CustomerSummaryDto> responseDtos = customers.stream()
-                .map(CustomerSummaryDto::new)
+        List<CustomerResponseDto> responseDtos = customers.stream()
+                .map(CustomerResponseDto::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
     }
 
-    // 상태별 고객 조회
-    @GetMapping("/status/{status}")
-    public ResponseEntity<ApiResponseUser<List<CustomerSummaryDto>>> getCustomersByStatus(@PathVariable String status) {
-        List<Customer> customers = customerService.getCustomersByStatus(Customer.CustomerStatus.valueOf(status));
-        List<CustomerSummaryDto> responseDtos = customers.stream()
-                .map(CustomerSummaryDto::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
-    }
+
 
     // 이메일 중복 확인
     @GetMapping("/check-email/{email}")

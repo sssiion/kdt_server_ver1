@@ -2,6 +2,7 @@ package com.example.KDT_bank_server_project2.manager.ServiceUser;
 
 import com.example.KDT_bank_server_project2.manager.EntityUser.Customer;
 import com.example.KDT_bank_server_project2.manager.Repository.CustomerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+
+    private final CustomerRepository customerRepository;
 
     // 고객 생성
     public Customer createCustomer(Customer customer) {
@@ -33,7 +35,7 @@ public class CustomerService {
     // 모든 고객 조회
     @Transactional(readOnly = true)
     public List<Customer> getAllCustomers() {
-        return customerRepository.findAllByOrderByCreatedAtDesc();
+        return customerRepository.findAll();
     }
 
     // ID로 고객 조회
@@ -77,12 +79,6 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public List<Customer> searchCustomers(String keyword) {
         return customerRepository.searchCustomers(keyword);
-    }
-
-    // 상태별 고객 조회
-    @Transactional(readOnly = true)
-    public List<Customer> getCustomersByStatus(Customer.CustomerStatus status) {
-        return customerRepository.findByStatus(status);
     }
 
 

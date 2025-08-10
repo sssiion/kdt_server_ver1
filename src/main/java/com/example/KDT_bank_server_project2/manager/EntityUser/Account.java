@@ -16,9 +16,8 @@ import java.time.LocalDateTime;
 @Table(name = "account")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class Account { //계좌 생성
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_number")
     private String accountNumber;
 
@@ -37,8 +36,7 @@ public class Account {
     @Column(name = "closing_date")
     private LocalDate closingDate;
 
-    @Enumerated(EnumType.STRING)
-    private AccountStatus status;
+
 
     @Column(name = "product_type", nullable = false, length = 50)
     private String productType;
@@ -49,26 +47,12 @@ public class Account {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public enum AccountStatus {
-        ACTIVE, INACTIVE, SUSPENDED, CLOSED;
 
-        public static AccountStatus fromString(String status) {
-            if (status == null) return ACTIVE;
-            try {
-                return AccountStatus.valueOf(status.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                return ACTIVE;
-            }
-        }
-    }
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        if (status == null) {
-            status = AccountStatus.ACTIVE;
-        }
         if (amount == null) {
             amount = BigDecimal.ZERO;
         }

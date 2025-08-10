@@ -104,11 +104,7 @@ public class LoanDocsService {
         return loanDocsRepository.findByFileNameContaining(fileName);
     }
 
-    // 특정 대출 신청의 서류 개수 조회
-    @Transactional(readOnly = true)
-    public String getLoanDocsCountByApplicationId(String applicationId) {
-        return loanDocsRepository.countByApplicationId(applicationId);
-    }
+
 
     // 기간별 서류 조회
     @Transactional(readOnly = true)

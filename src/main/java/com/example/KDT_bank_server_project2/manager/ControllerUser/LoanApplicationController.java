@@ -2,11 +2,13 @@ package com.example.KDT_bank_server_project2.manager.ControllerUser;
 
 import com.example.KDT_bank_server_project2.manager.EntityUser.LoanApplication;
 import com.example.KDT_bank_server_project2.manager.ServiceUser.LoanApplicationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -17,10 +19,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/loan-applications")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
+@Transactional
 public class LoanApplicationController {
 
-    @Autowired
-    private LoanApplicationService loanApplicationService;
+
+    private final LoanApplicationService loanApplicationService;
 
     // 대출 신청 생성
     @PostMapping
@@ -55,12 +59,6 @@ public class LoanApplicationController {
         return ResponseEntity.ok(applications);
     }
 
-    // 상태별 대출 신청 조회
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<LoanApplication>> getLoanApplicationsByStatus(@PathVariable String status) {
-        List<LoanApplication> applications = loanApplicationService.getLoanApplicationsByStatus(status);
-        return ResponseEntity.ok(applications);
-    }
 
     // 대기 중인 대출 신청 조회
     @GetMapping("/pending")
@@ -152,16 +150,15 @@ public class LoanApplicationController {
         return ResponseEntity.ok(applications);
     }
 
-    // 상품별 및 상태별 대출 신청 조회 (페이지네이션)
-    @GetMapping("/product/{productName}/status/{status}")
+    // 상품별 대출 신청 조회 (페이지네이션)
+    @GetMapping("/product/{productName}/")
     public ResponseEntity<List<LoanApplication>> getApplicationsByProductAndStatus(
             @PathVariable String productName,
-            @PathVariable LoanApplication.ApplicationStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<LoanApplication> applications = loanApplicationService.getApplicationsByProductAndStatus(
-                productName, status, pageable);
+                productName, pageable);
         return ResponseEntity.ok(applications);
     }
 }

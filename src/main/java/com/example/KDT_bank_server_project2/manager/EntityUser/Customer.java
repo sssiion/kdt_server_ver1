@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @Table(name = "customer")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class Customer { //고객
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(nullable = false, length = 100)
@@ -33,7 +33,7 @@ public class Customer {
     private String phone;
 
     @Column(name = "resident_number", unique = true, nullable = false, length = 14)
-    private String residentNumber;
+    private String residentNumber; // 주민번호
 
     @Column(columnDefinition = "TEXT")
     private String address;

@@ -35,7 +35,7 @@ public interface CashTransactionRepository extends JpaRepository<CashTransaction
     List<CashTransaction> findByAccountNumberAndTransactionDateBetween(String accountNumber, LocalDateTime startDate, LocalDateTime endDate);
     // 계좌번호 및 거래 날짜 기간으로 조회
 
-    String countByAccountNumber(String accountNumber);
+    List<CashTransaction> countByAccountNumber(String accountNumber);
     // 특정 계좌의 거래 건수
 
     @Query("SELECT ct FROM CashTransaction ct WHERE ct.accountNumber = :accountNumber AND ct.amount >= :minAmount ORDER BY ct.transactionDate DESC")
@@ -49,8 +49,8 @@ public interface CashTransactionRepository extends JpaRepository<CashTransaction
                                              @Param("endDate") LocalDateTime endDate);
     // 특정 기간 동안 거래 유형별 총액
 
-    @Query("SELECT ct FROM CashTransaction ct WHERE ct.note LIKE %:keyword% ORDER BY ct.transactionDate DESC")
-    List<CashTransaction> searchByNote(@Param("keyword") String keyword);
+    //@Query("SELECT ct FROM CashTransaction ct WHERE ct.note LIKE %:keyword% ORDER BY ct.transactionDate DESC")
+    //List<CashTransaction> searchByNote(@Param("keyword") String keyword);
     // 거래 메모로 검색
 
     @Query("SELECT ct FROM CashTransaction ct WHERE ct.accountNumber = :accountNumber ORDER BY ct.transactionDate DESC LIMIT 1")

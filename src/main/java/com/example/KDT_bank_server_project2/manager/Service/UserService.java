@@ -29,8 +29,8 @@ public class UserService {
             userDataDtos.add(new UserDataDto(u));
         }
         return  userDataDtos;
-
     }
+
     public User PwChange(User user, String password){
         user.setPassword(password);
         return userRepository.save(user);

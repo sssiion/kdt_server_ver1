@@ -1,36 +1,54 @@
 package com.example.KDT_bank_server_project2.manager.ControllerUser;
 
+import com.example.KDT_bank_server_project2.manager.DtoUser.LoanAccountCreateRequestDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.LoanAccountResponseDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.LoanAccount;
 import com.example.KDT_bank_server_project2.manager.ServiceUser.LoanAccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
+@Transactional
 @RestController
 @RequestMapping("/api/loan-accounts")
 @CrossOrigin(origins = "*")
 public class LoanAccountController {
 
-    @Autowired
-    private LoanAccountService loanAccountService;
+
+    private final LoanAccountService loanAccountService;
 
     // 대출 계좌 생성
     @PostMapping
-    public ResponseEntity<LoanAccount> createLoanAccount(@RequestBody LoanAccount loanAccount) {
+    public ResponseEntity<LoanAccountResponseDto> createLoanAccount(@RequestBody LoanAccountCreateRequestDto loanAccount) {
         try {
-            LoanAccount createdLoanAccount = loanAccountService.createLoanAccount(loanAccount);
-            return ResponseEntity.ok(createdLoanAccount);
+            LoanAccount account = new  LoanAccount();
+            account.createLoanAccount(loanAccount);
+            account  = loanAccountService.createLoanAccount(account);
+            LoanAccountResponseDto dto = new LoanAccountResponseDto(account);
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
+    //대출 만기일 변경
+    @PostMapping("/expiredate")
+    public ResponseEntity<LoanAccountResponseDto> changeExpireDate(@RequestBody LoanAccountCreateRequestDto loanAccount) {
+        try{
+            LoanAccountResponseDto dto =loanAccountService.changeLoanAccount(loanAccount);
+            return ResponseEntity.ok(dto);
+        }catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
     // 모든 대출 계좌 조회
     @GetMapping
     public ResponseEntity<List<LoanAccount>> getAllLoanAccounts() {
@@ -53,12 +71,7 @@ public class LoanAccountController {
         return ResponseEntity.ok(loanAccounts);
     }
 
-    // 고객의 활성 대출 계좌 조회
-    @GetMapping("/customer/{customerId}/active")
-    public ResponseEntity<List<LoanAccount>> getActiveLoansByCustomerId(@PathVariable String customerId) {
-        List<LoanAccount> loanAccounts = loanAccountService.getActiveLoansByCustomerId(customerId);
-        return ResponseEntity.ok(loanAccounts);
-    }
+
 
     // 대출 잔액 조회
     @GetMapping("/{loanId}/balance")
@@ -83,17 +96,7 @@ public class LoanAccountController {
         }
     }
 
-    // 대출 상태 변경
-    @PatchMapping("/{loanId}/status")
-    public ResponseEntity<LoanAccount> updateLoanStatus(@PathVariable String loanId,
-                                                        @RequestParam LoanAccount.LoanStatus status) {
-        try {
-            LoanAccount updatedLoanAccount = loanAccountService.updateLoanStatus(loanId, status);
-            return ResponseEntity.ok(updatedLoanAccount);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
 
     // 고객의 총 대출 잔액 조회
     @GetMapping("/customer/{customerId}/total-balance")
@@ -102,12 +105,7 @@ public class LoanAccountController {
         return ResponseEntity.ok(totalBalance);
     }
 
-    // 고객의 활성 대출 개수 조회
-    @GetMapping("/customer/{customerId}/count")
-    public ResponseEntity<String> getActiveLoanCountByCustomerId(@PathVariable String customerId) {
-        String count = loanAccountService.getActiveLoanCountByCustomerId(customerId);
-        return ResponseEntity.ok(count);
-    }
+
 
     // 만기 임박 대출 조회
     @GetMapping("/near-maturity")
@@ -124,11 +122,5 @@ public class LoanAccountController {
         return ResponseEntity.ok(loanAccounts);
     }
 
-    // 잔액이 있는 활성 대출 조회
-    @GetMapping("/active-with-balance")
-    public ResponseEntity<List<LoanAccount>> getActiveLoansWithBalance() {
-        List<LoanAccount> loanAccounts = loanAccountService.getActiveLoansWithBalance();
-        return ResponseEntity.ok(loanAccounts);
-    }
 }
 

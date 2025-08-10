@@ -1,7 +1,10 @@
 package com.example.KDT_bank_server_project2.manager.ServiceUser;
 
+import com.example.KDT_bank_server_project2.manager.DtoUser.LoanAccountCreateRequestDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.LoanAccountResponseDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.LoanAccount;
 import com.example.KDT_bank_server_project2.manager.Repository.LoanAccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +16,21 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class LoanAccountService {
 
-    @Autowired
-    private LoanAccountRepository loanAccountRepository;
 
-    @Autowired
-    private AccountNumberService accountNumberService;
+    private final LoanAccountRepository loanAccountRepository;
+    private final AccountNumberService accountNumberService;
+
+   //대출 정보 변경
+   public LoanAccountResponseDto changeLoanAccount(LoanAccountCreateRequestDto loanAccount){
+       LoanAccount account = getLoanAccountById(loanAccount.getCustomerId()).get();
+       account.setMaturityDate(loanAccount.getMaturityDate());
+       account.setInterestRate(loanAccount.getInterestRate());
+       loanAccountRepository.save(account);
+       return new LoanAccountResponseDto(account);
+   }
 
     // 대출 계좌 생성
     public LoanAccount createLoanAccount(LoanAccount loanAccount) {
@@ -58,11 +69,7 @@ public class LoanAccountService {
         return loanAccountRepository.findByCustomerIdOrderByLoanDateDesc(customerId);
     }
 
-    // 고객의 활성 대출 계좌 조회
-    @Transactional(readOnly = true)
-    public List<LoanAccount> getActiveLoansByCustomerId(String customerId) {
-        return loanAccountRepository.findActiveLoansByCustomerId(customerId);
-    }
+
 
     // 대출 잔액 조회
     @Transactional(readOnly = true)
@@ -82,10 +89,6 @@ public class LoanAccountService {
         LoanAccount loanAccount = loanAccountRepository.findByLoanId(loanId)
                 .orElseThrow(() -> new RuntimeException("대출 계좌를 찾을 수 없습니다: " + loanId));
 
-        if (loanAccount.getStatus() != LoanAccount.LoanStatus.ACTIVE) {
-            throw new RuntimeException("비활성 대출 계좌입니다");
-        }
-
         BigDecimal currentRepayment = loanAccount.getRepaymentAmount();
         BigDecimal newRepayment = currentRepayment.add(repaymentAmount);
 
@@ -96,22 +99,12 @@ public class LoanAccountService {
 
         loanAccount.setRepaymentAmount(newRepayment);
 
-        // 완전 상환 시 상태 변경
-        if (newRepayment.compareTo(loanAccount.getTotalAmount()) == 0) {
-            loanAccount.setStatus(LoanAccount.LoanStatus.PAID_OFF);
-        }
+
 
         return loanAccountRepository.save(loanAccount);
     }
 
-    // 대출 상태 변경
-    public LoanAccount updateLoanStatus(String loanId, LoanAccount.LoanStatus status) {
-        LoanAccount loanAccount = loanAccountRepository.findByLoanId(loanId)
-                .orElseThrow(() -> new RuntimeException("대출 계좌를 찾을 수 없습니다: " + loanId));
 
-        loanAccount.setStatus(status);
-        return loanAccountRepository.save(loanAccount);
-    }
 
     // 고객의 총 대출 잔액 조회
     @Transactional(readOnly = true)
@@ -120,11 +113,6 @@ public class LoanAccountService {
         return totalBalance != null ? totalBalance : BigDecimal.ZERO;
     }
 
-    // 고객의 활성 대출 개수 조회
-    @Transactional(readOnly = true)
-    public String getActiveLoanCountByCustomerId(String customerId) {
-        return loanAccountRepository.countActiveLoansByCustomerId(customerId);
-    }
 
     // 만기 임박 대출 조회
     @Transactional(readOnly = true)
@@ -138,7 +126,7 @@ public class LoanAccountService {
         return loanAccountRepository.findByProductName(productName);
     }
 
-    // 잔액이 있는 활성 대출 조회
+    // 잔액이 있는 대출 조회
     @Transactional(readOnly = true)
     public List<LoanAccount> getActiveLoansWithBalance() {
         return loanAccountRepository.findActiveLoansWithBalance();

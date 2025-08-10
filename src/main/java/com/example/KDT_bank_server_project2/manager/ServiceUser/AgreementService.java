@@ -4,6 +4,7 @@ package com.example.KDT_bank_server_project2.manager.ServiceUser;
 import com.example.KDT_bank_server_project2.manager.DtoUser.AgreementResponseDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.Agreement;
 import com.example.KDT_bank_server_project2.manager.Repository.AgreementRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class AgreementService {
 
-    @Autowired
-    private AgreementRepository agreementRepository;
+    private final AgreementRepository agreementRepository;
 
     // 약정 생성
     public Agreement createAgreement(Agreement agreement) {
@@ -51,11 +52,6 @@ public class AgreementService {
         return agreementRepository.findByCustomerIdOrderByAgreementDateDesc(customerId);
     }
 
-    // 고객의 활성 약정 조회
-    @Transactional(readOnly = true)
-    public List<Agreement> getActiveAgreementsByCustomerId(String customerId) {
-        return agreementRepository.findActiveAgreementsByCustomerId(customerId);
-    }
 
     // 상품별 약정 조회
     @Transactional(readOnly = true)
@@ -63,11 +59,6 @@ public class AgreementService {
         return agreementRepository.findByProductName(productName);
     }
 
-    // 상태별 약정 조회
-    @Transactional(readOnly = true)
-    public List<Agreement> getAgreementsByStatus(Agreement.AgreementStatus status) {
-        return agreementRepository.findByStatus(status);
-    }
 
     // 약정 정보 수정
     public Agreement updateAgreement(String id, AgreementResponseDto dto) {
@@ -75,25 +66,10 @@ public class AgreementService {
                 .orElseThrow(() -> new RuntimeException("약정을 찾을 수 없습니다: " + id));
 
         existingAgreement.setExpirationDate(dto.getExpirationDate());
-        existingAgreement.setNote(dto.getNote());
 
         return agreementRepository.save(existingAgreement);
     }
 
-    // 약정 상태 변경
-    public Agreement updateAgreementStatus(String id, Agreement.AgreementStatus status) {
-        Agreement agreement = agreementRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("약정을 찾을 수 없습니다: " + id));
-
-        agreement.setStatus(status);
-        return agreementRepository.save(agreement);
-    }
-
-    // 고객의 활성 약정 개수 조회
-    @Transactional(readOnly = true)
-    public String getActiveAgreementCountByCustomerId(String customerId) {
-        return agreementRepository.countActiveAgreementsByCustomerId(customerId);
-    }
 
     // 만료 임박 약정 조회
     @Transactional(readOnly = true)
@@ -101,11 +77,7 @@ public class AgreementService {
         return agreementRepository.findAgreementsNearingExpiry(date);
     }
 
-    // 상품별 활성 약정 조회
-    @Transactional(readOnly = true)
-    public List<Agreement> getActiveAgreementsByProductName(String productName) {
-        return agreementRepository.findActiveAgreementsByProductName(productName);
-    }
+
 
     // 기간별 약정 조회
     @Transactional(readOnly = true)

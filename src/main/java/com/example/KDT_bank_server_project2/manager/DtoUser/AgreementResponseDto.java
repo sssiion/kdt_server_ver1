@@ -15,35 +15,29 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AgreementResponseDto {
+public class AgreementResponseDto { //계약 응답
 
-    private String agreementId;
-    private String customerId;
-    private String customerName;
-    private String productName;
-    private LocalDate agreementDate;
-    private LocalDate expirationDate;
-    private String status;
-    private String note;
+    private String agreementId; //계좌 번호
+    private String customerId;  // 사용자 id
+    private String productName; //상품명
+    private LocalDate agreementDate; // 입금
+    private LocalDate expirationDate; // 출금
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public AgreementResponseDto(Agreement agreement) {
         this.agreementId = agreement.getAgreementId();
         this.customerId = agreement.getCustomerId();
-        this.customerName = null; // 별도로 설정 필요
         this.productName = agreement.getProductName();
         this.agreementDate = agreement.getAgreementDate();
         this.expirationDate = agreement.getExpirationDate();
-        this.status = agreement.getStatus().toString();
-        this.note = agreement.getNote();
+
         this.createdAt = agreement.getCreatedAt();
         this.updatedAt = agreement.getUpdatedAt();
         System.out.println("AgreementResponseDto 생성: 약정ID " + agreementId +
                 ", 고객ID: " + customerId +
                 ", 상품: " + productName +
                 ", 체결일: " + agreementDate +
-                ", 만료일: " + expirationDate +
-                ", 상태: " + status);
+                ", 만료일: " + expirationDate);
     }
 }

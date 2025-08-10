@@ -2,6 +2,7 @@ package com.example.KDT_bank_server_project2.manager.ControllerUser;
 
 import com.example.KDT_bank_server_project2.manager.EntityUser.LoanDocs;
 import com.example.KDT_bank_server_project2.manager.ServiceUser.LoanDocsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -9,6 +10,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,13 +22,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+
+@RequiredArgsConstructor
+@Transactional
 @RestController
 @RequestMapping("/api/loan-docs")
 @CrossOrigin(origins = "*")
 public class LoanDocsController {
 
-    @Autowired
-    private LoanDocsService loanDocsService;
+
+    private final LoanDocsService loanDocsService;
 
     // 대출 서류 업로드
     @PostMapping("/upload")
@@ -97,12 +103,6 @@ public class LoanDocsController {
         return ResponseEntity.ok(docsList);
     }
 
-    // 특정 대출 신청의 서류 개수 조회
-    @GetMapping("/application/{applicationId}/count")
-    public ResponseEntity<String> getLoanDocsCountByApplicationId(@PathVariable String applicationId) {
-        String count = loanDocsService.getLoanDocsCountByApplicationId(applicationId);
-        return ResponseEntity.ok(count);
-    }
 
     // 기간별 서류 조회
     @GetMapping("/date-range")

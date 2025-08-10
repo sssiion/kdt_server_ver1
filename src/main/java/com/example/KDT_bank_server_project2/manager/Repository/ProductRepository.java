@@ -33,15 +33,10 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     List<Product> findByProductNameContaining(String keyword);
     // 상품명으로 검색 (부분 일치)
 
-    List<Product> findByCategoryAndStatus(String category, Product.ProductStatus status);
-    // 카테고리 및 상태별 상품 조회
-
     List<Product> findAllByOrderByCreatedAtDesc();
     // 최신 등록순으로 전체 상품 조회
 
-    @Query("SELECT p FROM Product p WHERE p.status = 'ACTIVE' ORDER BY p.createdAt DESC")
-    List<Product> findActiveProducts();
-    // 활성 상품만 조회
+
 
     @Query("SELECT p FROM Product p WHERE p.maxRate BETWEEN :minRate AND :maxRate AND p.status = 'ACTIVE'")
     List<Product> findByInterestRateRange(@Param("minRate") BigDecimal minRate, @Param("maxRate") BigDecimal maxRate);
@@ -51,7 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     List<Product> searchProducts(@Param("keyword") String keyword);
     // 통합 검색 (상품명, 상품 설명)
 
-    @Query("SELECT p FROM Product p WHERE p.category = :category AND p.status = 'ACTIVE' ORDER BY p.maxRate DESC")
+    @Query("SELECT p FROM Product p WHERE p.category = :category ORDER BY p.maxRate DESC")
     List<Product> findActiveByCategoryOrderByMaxRateDesc(@Param("category") String category);
-    // 카테고리별 활성 상품을 최고 금리순으로 조회
+    // 카테고리별  상품을 최고 금리순으로 조회
 }

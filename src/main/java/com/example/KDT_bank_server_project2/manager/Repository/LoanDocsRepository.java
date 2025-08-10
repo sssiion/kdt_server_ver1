@@ -29,8 +29,6 @@ public interface LoanDocsRepository extends JpaRepository<LoanDocs, String> {
     List<LoanDocs> findByApplicationIdOrderByUploadDateDesc(String applicationId);
     // 대출 신청별 서류를 최신 업로드순으로 조회
 
-    String countByApplicationId(String applicationId);
-    // 특정 대출 신청의 서류 개수
 
     @Query("SELECT ld FROM LoanDocs ld WHERE ld.applicationId = :applicationId AND ld.fileType = :fileType")
     List<LoanDocs> findByApplicationIdAndFileType(@Param("applicationId") String applicationId, @Param("fileType") String fileType);

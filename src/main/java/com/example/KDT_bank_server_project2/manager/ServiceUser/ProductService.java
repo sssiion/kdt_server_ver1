@@ -32,11 +32,6 @@ public class ProductService {
         return productRepository.findAllByOrderByCreatedAtDesc();
     }
 
-    // 활성 상품만 조회
-    @Transactional(readOnly = true)
-    public List<Product> getActiveProducts() {
-        return productRepository.findActiveProducts();
-    }
 
     // ID로 상품 조회
     @Transactional(readOnly = true)
@@ -64,20 +59,7 @@ public class ProductService {
         return productRepository.save(existingProduct);
     }
 
-    // 상품 상태 변경
-    public Product updateProductStatus(String id, Product.ProductStatus status) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다: " + id));
 
-        product.setStatus(status);
-        return productRepository.save(product);
-    }
-
-    // 카테고리별 상품 조회
-    @Transactional(readOnly = true)
-    public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategoryAndStatus(category, Product.ProductStatus.ACTIVE);
-    }
 
     // 상품 카테고리별 조회
     @Transactional(readOnly = true)
@@ -103,12 +85,5 @@ public class ProductService {
         return productRepository.findActiveByCategoryOrderByMaxRateDesc(category);
     }
 
-    // 상품 비활성화
-    public void deactivateProduct(String id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다: " + id));
 
-        product.setStatus(Product.ProductStatus.INACTIVE);
-        productRepository.save(product);
-    }
 }

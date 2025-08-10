@@ -18,8 +18,6 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     List<LoanApplication> findByCustomerId(String customerId);
     // 고객 ID로 대출 신청 조회
 
-    List<LoanApplication> findByCustomerIdAndStatus(String customerId, LoanApplication.ApplicationStatus status);
-    // 고객 ID 및 상태별 대출 신청 조회
 
     List<LoanApplication> findByStatus(LoanApplication.ApplicationStatus status);
     // 상태별 대출 신청 조회
@@ -55,11 +53,10 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     List<LoanApplication> findByMinRequestedAmountOrderByAmountDesc(@Param("minAmount") BigDecimal minAmount);
     // 최소 신청 금액 이상인 대출 신청을 금액순으로 조회
 
-    @Query("SELECT la FROM LoanApplication la WHERE la.productName = :productName AND la.status = :status ORDER BY la.applicationDate DESC")
+    @Query("SELECT la FROM LoanApplication la WHERE la.productName = :productName  ORDER BY la.applicationDate DESC")
     List<LoanApplication> findByProductNameAndStatusOrderByApplicationDateDesc(@Param("productName") String productName,
-                                                                               @Param("status") LoanApplication.ApplicationStatus status,
                                                                                Pageable pageable);
-    // 상품별 및 상태별 대출 신청을 최신순으로 조회 (페이지네이션)
+    // 상품별  대출 신청을 최신순으로 조회 (페이지네이션)
 
     @Query("SELECT SUM(la.requestedAmount) FROM LoanApplication la WHERE la.status = 'APPROVED' AND la.approvalDate BETWEEN :startDate AND :endDate")
     BigDecimal getTotalApprovedAmountByPeriod(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);

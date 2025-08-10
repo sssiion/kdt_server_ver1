@@ -16,36 +16,26 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AccountResponseDto {
+public class AccountResponseDto { //계정 응답
 
-    private String accountNumber;
-    private String customerId;
-    private String customerName;
-    private String productName;
-    private BigDecimal amount;
-    private LocalDate openingDate;
-    private LocalDate closingDate;
-    private String status;
-    private String productType;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String accountNumber; // 계좌번호
+    private String customerId; // 사용자 id
+    private BigDecimal amount;  // 총금액
+    private String productType; // 대출, 예금
+    private LocalDateTime createdAt; // 만들어진 날
+    private LocalDateTime updatedAt; // 업뎃 날
 
     public AccountResponseDto(Account account) {
-        this.accountNumber = account.getAccountNumber();
-        this.customerId = account.getCustomerId();
-        this.customerName = null; // 별도로 설정 필요
-        this.productName = account.getProductName();
+        this.accountNumber = account.getAccountNumber(); // 계좌 번호
+        this.customerId = account.getCustomerId(); //
         this.amount = account.getAmount();
-        this.openingDate = account.getOpeningDate();
-        this.closingDate = account.getClosingDate();
-        this.status = account.getStatus().toString();
+
         this.productType = account.getProductType();
         this.createdAt = account.getCreatedAt();
         this.updatedAt = account.getUpdatedAt();
-        System.out.println("AccountResponseDto 생성: 계좌번호 " + accountNumber +
+        System.out.println("AccountResponseDto 생성: " +
+                "계좌번호 " + accountNumber +
                 ", 고객ID: " + customerId +
-                ", 상품: " + productName +
-                ", 잔액: " + amount +
-                ", 상태: " + status);
+                ", 잔액: " + amount );
     }
 }

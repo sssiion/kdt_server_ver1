@@ -3,6 +3,7 @@ package com.example.KDT_bank_server_project2.manager.ServiceUser;
 
 import com.example.KDT_bank_server_project2.manager.EntityUser.LoanApplication;
 import com.example.KDT_bank_server_project2.manager.Repository.LoanApplicationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class LoanApplicationService {
 
-    @Autowired
-    private LoanApplicationRepository loanApplicationRepository;
+
+    private final LoanApplicationRepository loanApplicationRepository;
 
     // 대출 신청 생성
     public LoanApplication createLoanApplication(LoanApplication loanApplication) {
@@ -49,12 +51,6 @@ public class LoanApplicationService {
     @Transactional(readOnly = true)
     public List<LoanApplication> getLoanApplicationsByCustomerId(String customerId) {
         return loanApplicationRepository.findByCustomerIdOrderByApplicationDateDesc(customerId);
-    }
-
-    // 상태별 대출 신청 조회
-    @Transactional(readOnly = true)
-    public List<LoanApplication> getLoanApplicationsByStatus(String status) {
-        return loanApplicationRepository.findByStatus(LoanApplication.ApplicationStatus.valueOf(status));
     }
 
     // 대기 중인 대출 신청 조회
@@ -145,12 +141,11 @@ public class LoanApplicationService {
         return loanApplicationRepository.findByMinRequestedAmountOrderByAmountDesc(minAmount);
     }
 
-    // 상품별 및 상태별 대출 신청 조회 (페이지네이션)
+    // 상품별  대출 신청 조회 (페이지네이션)
     @Transactional(readOnly = true)
     public List<LoanApplication> getApplicationsByProductAndStatus(String productName,
-                                                                   LoanApplication.ApplicationStatus status,
                                                                    Pageable pageable) {
         return loanApplicationRepository.findByProductNameAndStatusOrderByApplicationDateDesc(
-                productName, status, pageable);
+                productName, pageable);
     }
 }

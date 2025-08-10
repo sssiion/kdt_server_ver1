@@ -1,16 +1,12 @@
 package com.example.KDT_bank_server_project2.manager.Controller;
 
 import com.example.KDT_bank_server_project2.manager.Entity.User;
-import com.example.KDT_bank_server_project2.manager.EntityUser.BankEmployee;
 import com.example.KDT_bank_server_project2.manager.EntityUser.Customer;
-import com.example.KDT_bank_server_project2.manager.EntityUser.Product;
 import com.example.KDT_bank_server_project2.manager.Repository.*;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 
 @Configuration
 @Transactional
@@ -45,7 +41,6 @@ public class InitialUserConfig {
     @Bean
     public ApplicationRunner addInitialData(
             CustomerRepository customerRepository,
-            BankEmployeeRepository bankEmployeeRepository,
             ProductRepository productRepository,
             AccountRepository accountRepository) {
         return args -> {

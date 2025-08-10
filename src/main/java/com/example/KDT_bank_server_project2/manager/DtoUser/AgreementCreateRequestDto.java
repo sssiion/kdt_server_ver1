@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class AgreementCreateRequestDto {
 
     @NotNull(message = "고객 ID는 필수입니다")
-    private String customerId;
+    private String customerId; //계좌 번호
 
     @NotBlank(message = "상품명은 필수입니다")
     private String productName;
@@ -28,5 +28,5 @@ public class AgreementCreateRequestDto {
     @NotNull(message = "만료일은 필수입니다")
     private LocalDate expirationDate;
 
-    private String note;
+
 }

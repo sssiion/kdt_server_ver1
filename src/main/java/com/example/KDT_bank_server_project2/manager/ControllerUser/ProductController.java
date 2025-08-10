@@ -51,15 +51,6 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
     }
 
-    // 활성 상품만 조회
-    @GetMapping("/active")
-    public ResponseEntity<ApiResponseUser<List<ProductResponseDto>>> getActiveProducts() {
-        List<Product> products = productService.getActiveProducts();
-        List<ProductResponseDto> responseDtos = products.stream()
-                .map(ProductResponseDto::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
-    }
 
     // ID로 상품 조회
     @GetMapping("/{id}")
@@ -73,15 +64,7 @@ public class ProductController {
         }
     }
 
-    // 카테고리별 상품 조회
-    @GetMapping("/category/{category}")
-    public ResponseEntity<ApiResponseUser<List<ProductResponseDto>>> getProductsByCategory(@PathVariable String category) {
-        List<Product> products = productService.getProductsByCategory(category);
-        List<ProductResponseDto> responseDtos = products.stream()
-                .map(ProductResponseDto::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
-    }
+
 
     // 상품 검색
     @GetMapping("/search")

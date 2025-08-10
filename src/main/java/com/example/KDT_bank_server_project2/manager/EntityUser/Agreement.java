@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Agreement {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "agreement_id")
     private String agreementId;
 
@@ -36,8 +35,8 @@ public class Agreement {
     @Enumerated(EnumType.STRING)
     private AgreementStatus status;
 
-    @Column(columnDefinition = "TEXT")
-    private String note;
+    //@Column(columnDefinition = "TEXT")
+    //private String note;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

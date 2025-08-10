@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @Table(name = "product")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Product { // 상품
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private String productId;
+    private Long productId;
 
     @Column(name = "product_name", unique = true, nullable = false, length = 100)
     private String productName;
