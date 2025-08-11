@@ -25,152 +25,123 @@ public class AccountService {
 
 
     private final AccountRepository accountRepository;
-    private final CashTransactionController  cashTransactionController;
+    private final CashTransactionService cashTransactionService; //
     private final AccountNumberService accountNumberService;
 
     // 계좌 생성
     public Account createAccount(Account account) {
-        // 계좌번호가 없으면 고유한 번호 생성
         if (account.getAccountNumber() == null) {
-            account.setAccountNumber(accountNumberService.generateLoanIdWithStringBuilder());
+            account.setAccountNumber(accountNumberService.generateLoanIdWithStringBuilder().trim());
         }
-
         if (account.getOpeningDate() == null) {
             account.setOpeningDate(LocalDate.now());
         }
-
         return accountRepository.save(account);
     }
 
-    // 모든 계좌 조회
     @Transactional(readOnly = true)
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
 
-    // 계좌번호로 계좌 조회
-
+    // 계좌번호로 단일 계좌 조회(필수: 없으면 예외)
     public Account getAccountByNumber(String accountNumber) {
-        System.out.println("[" + accountNumber + "] len=" + accountNumber.length());
-        return accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: [" + accountNumber+"]" +accountNumber.length()));
+        return accountRepository.findByAccountNumber(accountNumber.trim())
+                .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
+
+
     }
 
-    // 고객별 계좌 조회
+
     @Transactional(readOnly = true)
     public List<Account> getAccountsByCustomerId(String customerId) {
         return accountRepository.findByCustomerIdOrderByCreatedAtDesc(customerId);
     }
 
-
-
-    // 계좌 잔액 조회
     @Transactional(readOnly = true)
     public BigDecimal getAccountBalance(String accountNumber) {
-        Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
-        return account.getAmount();
+        return getAccountByNumber(accountNumber).getAmount();
     }
 
-    // 계좌 잔액 업데이트
     public Account updateAccountBalance(String accountNumber, BigDecimal newBalance) {
-        Account account = getAccountByNumber(accountNumber);
-
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new RuntimeException("잔액은 음수가 될 수 없습니다");
         }
-
+        Account account = getAccountByNumber(accountNumber);
         account.setAmount(newBalance);
         return accountRepository.save(account);
     }
 
-    // 입금 > 결과
-    public CashTransactionResponseDto deposit(String accountNumber, String amount, String userId) {
-        if (amount.equals("0")) {
+    /** ✅ 입금 로직 수정 */
+    public CashTransactionResponseDto deposit(String accountNumber, String amountStr) {
+        BigDecimal amount = new BigDecimal(amountStr);
+        System.out.println("입금값: "+amount);
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("입금액은 0보다 커야 합니다");
         }
-        List<Account> account = accountRepository.findByCustomerId(userId);
-        Account currentAccout =new Account();
-        for(Account acc : account) {
-            if(accountNumber.trim().equals(acc.getAccountNumber().trim())){
-                currentAccout = acc;
-            }
-        }
 
+        // 1. 단일 계좌 조회
+        Account account = getAccountByNumber(accountNumber.trim());
+        System.out.println("입금로직에서 계좌번호 :"+account.getAccountNumber());
+        // 2. 새 잔액 계산
+        BigDecimal newBalance = account.getAmount().add(amount);
+        account.setAmount(newBalance);
+        accountRepository.saveAndFlush(account);
 
-        CashTransactionResponseDto dto = new  CashTransactionResponseDto();
-        dto.setAccountNumber(accountNumber);
-        dto.setAmount(new BigDecimal(amount));
-        dto.setAccountNumber(currentAccout.getAccountNumber());
-        dto.setOtherAccountNumber("");
-        dto.setTransactionType("입금");
-        CashTransactionResponseDto textdto = cashTransactionController.createTransaction(dto);
-
-
-        BigDecimal newBalance = currentAccout.getAmount().add(new BigDecimal(amount));
-        currentAccout.setAmount(newBalance);
-        accountRepository.saveAndFlush(currentAccout);
-        return textdto;
+        // 3. 거래 내역 저장
+        CashTransaction tx = cashTransactionService.createTransaction(
+                account.getAccountNumber(), "", CashTransaction.TransactionType.입금, amount
+        );
+        
+        return new CashTransactionResponseDto(tx);
     }
 
-    // 출금
-    public CashTransactionResponseDto withdraw(String accountNumber, String amount, String userId) {
-        if (amount.equals("0")) {
+    /** ✅ 출금 로직 수정 */
+    public CashTransactionResponseDto withdraw(String accountNumber, String amountStr) {
+        BigDecimal amount = new BigDecimal(amountStr);
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("출금액은 0보다 커야 합니다");
         }
 
-        List<Account> account = accountRepository.findByCustomerId(userId);
-        Account currentAccout =new Account();
-        for(Account acc : account) {
-            if(accountNumber.trim().equals(acc.getAccountNumber().trim())){
-                currentAccout = acc;
-                System.out.println(acc);
-            }
-        }
-
-
-        if (currentAccout.getAmount().compareTo(new BigDecimal(amount)) < 0) {
+        // 1. 단일 계좌 조회
+        Account account = getAccountByNumber(accountNumber.trim());
+        System.out.println("출금로직 :"+account);
+        // 2. 잔액 부족 체크
+        if (account.getAmount().compareTo(amount) < 0) {
             throw new RuntimeException("잔액이 부족합니다");
         }
 
-        CashTransactionResponseDto dto = new CashTransactionResponseDto();
-        dto.setAmount(new BigDecimal(amount)); // 양 저장
-        dto.setAccountNumber(currentAccout.getAccountNumber()); // 내 account 저장
-        dto.setOtherAccountNumber(""); // 상대방 account 저장
-        dto.setTransactionType("출금"); // 타입
-        cashTransactionController.createTransaction(dto); // 여기에 save도 있음.
-        BigDecimal newBalance = currentAccout.getAmount().add(new BigDecimal(amount));
-        currentAccout.setAmount(newBalance);
-        accountRepository.saveAndFlush(currentAccout);
-        return dto;
-    }
-    //송금
-    public CashTransactionResponseDto remittance(TransferRequestDto dto,String userId) {
-        BigDecimal amount = BigDecimal.valueOf(Long.parseLong(dto.getAmount()));
-        CashTransactionResponseDto account = deposit(dto.getToAccountNumber(), amount.toString(),userId);
-        CashTransactionResponseDto otheraccount = withdraw(dto.getFromAccountNumber(), amount.toString(), userId);
-
+        // 3. 새 잔액 계산 (🚀 변경: 출금은 빼기)
         BigDecimal newBalance = account.getAmount().subtract(amount);
         account.setAmount(newBalance);
-        account.setOtherAccountNumber(otheraccount.getOtherAccountNumber());
-        account.setTransactionType("출금");
-        BigDecimal otherBalance = otheraccount.getAmount().add(amount);
-        otheraccount.setAmount(otherBalance);
-        otheraccount.setTransactionType("입금");
-        otheraccount.setOtherAccountNumber(dto.getFromAccountNumber());
+        accountRepository.saveAndFlush(account);
 
-        return account;
+        // 4. 거래 내역 저장
+        CashTransaction tx = cashTransactionService.createTransaction(
+                account.getAccountNumber(), "", CashTransaction.TransactionType.출금, amount
+        );
+
+        return new CashTransactionResponseDto(tx);
     }
 
-    // 상품별 계좌 조회
-    @Transactional(readOnly = true)
+    /** ✅ 송금 로직 수정 */
+    public void remittance(TransferRequestDto dto) {
+        BigDecimal amount = new BigDecimal(dto.getAmount());
+
+        // 출금 계좌 차감
+        withdraw(dto.getFromAccountNumber(), amount.toString());
+
+        // 입금 계좌 증가
+        deposit(dto.getToAccountNumber(), amount.toString());
+        
+    }
+
     public List<Account> getAccountsByProductName(String productName) {
         return accountRepository.findByProductName(productName);
     }
-    //계좌 삭제
-    public void deleteByAccountNumber(String accountNumber) {
-          accountRepository.deleteByAccountNumber(accountNumber);
-    }
 
+    public void deleteByAccountNumber(String accountNumber) {
+        accountRepository.deleteByAccountNumber(accountNumber);
+    }
 
 }

@@ -27,7 +27,7 @@ public class CashTransactionService {
     public CashTransaction createTransaction(String accountNumber,String otherAccountNumber, CashTransaction.TransactionType transactionType,
                                              BigDecimal amount) {
         // 계좌 존재 여부 확인
-        Account account = accountRepository.findByAccountNumber(accountNumber)
+        Account account = accountRepository.findByAccountNumber(accountNumber.trim())
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
         Account otherAccount = accountRepository.findByAccountNumber(otherAccountNumber)
                 .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));

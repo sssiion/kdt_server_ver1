@@ -28,7 +28,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     // 상품 유형별 계좌 조회
 
 
-    Optional<Account> findByAccountNumber(String accountNumber);
+    //Optional<Account> findByAccountNumber(String accountNumber);
     // 계좌번호로 계좌 찾기
 
     List<Account> findByCustomerIdOrderByCreatedAtDesc(String customerId);
@@ -45,6 +45,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
     void deleteByAccountNumber(String accountNumber);
 
-
+    @Query("SELECT a FROM Account a WHERE a.accountNumber = :accountNumber")
+    Optional<Account> findByAccountNumber(@Param("accountNumber") String accountNumber);
 
 }

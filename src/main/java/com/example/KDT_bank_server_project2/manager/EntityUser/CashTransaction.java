@@ -29,6 +29,7 @@ public class CashTransaction { //거래 기록
     
     @Column(name = "amount", nullable = false)
     private BigDecimal amount; // 입출금 금액
+
     @Column(name ="totalamount")
     private BigDecimal totalAmount;
 
@@ -56,8 +57,6 @@ public class CashTransaction { //거래 기록
     @PrePersist
     protected void onCreate() {
         transactionDate = LocalDateTime.now();
-        amount = BigDecimal.ZERO;
-
     }
     public CashTransaction(Account account){
         this.accountNumber = account.getAccountNumber();
