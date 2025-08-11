@@ -60,6 +60,16 @@ public class userController {
         System.out.println("반환할 데이터 개수: " + dto.size());
         return ResponseEntity.ok(ApiResponse.success("상태 전송 성공", dto));
     }
+    @GetMapping("/status/{userID}")
+    public ResponseEntity<ApiResponse<UserDataDto>> userStatus(@PathVariable String userID){
+        List<UserDataDto> dto = userService.getUserData();
+        for(UserDataDto userDataDto : dto){
+            if(userDataDto.getUserId().equals(userID)){
+                return ResponseEntity.ok(ApiResponse.success("상태 전송 성공", userDataDto));
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<UserResponseDto>> logout(@RequestBody String userId){
