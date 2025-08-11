@@ -36,7 +36,7 @@ public class LoanAccountService {
     public LoanAccount createLoanAccount(LoanAccount loanAccount) {
         // 대출 ID가 없으면 고유한 번호 생성
         if (loanAccount.getLoanId() == null || loanAccount.getLoanId().isEmpty()) {
-            loanAccount.setLoanId(accountNumberService.generateUniqueLoanId());
+            loanAccount.setLoanId(accountNumberService.generateLoanIdWithStringBuilder());
         }
 
         if (loanAccount.getLoanDate() == null) {

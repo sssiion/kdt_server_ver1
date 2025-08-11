@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ public class AccountController {
         return ResponseEntity.ok(ApiResponseUser.success(responseDtos));
     }
     //고객 아이디로 고객 모든 계죄 조회
-    @GetMapping("/{costomerId}")
+    @GetMapping("/id/{costomerId}")
     public ResponseEntity<ApiResponseUser<List<AccountResponseDto>>> getAccountById(@PathVariable String costomerId) {
         List<Account> accounts = accountService.getAccountsByCustomerId(costomerId);
         if (accounts.isEmpty()) {
@@ -64,14 +65,14 @@ public class AccountController {
     }
 
     // 계좌번호로 계좌 조회
-    @GetMapping("/{accountNumber}")
-    public ResponseEntity<ApiResponseUser<AccountResponseDto>> getAccountByNumber(@PathVariable String accountNumber) {
-        Optional<Account> account = accountService.getAccountByNumber(accountNumber);
-        if (account.isPresent()) {
-            AccountResponseDto responseDto = new AccountResponseDto(account.get());
-            return ResponseEntity.ok(ApiResponseUser.success(responseDto));
-        } else {
+    @GetMapping("/number/{accountNumber}")
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> getAccount(@PathVariable String accountNumber) {
+        Account account = accountService.getAccountByNumber(accountNumber);
+        if(account == null){
             return ResponseEntity.notFound().build();
+        }else{
+            AccountResponseDto responseDto = new AccountResponseDto(account);
+            return ResponseEntity.ok(ApiResponseUser.success("계좌 조회 완료",responseDto));
         }
     }
 
@@ -86,10 +87,10 @@ public class AccountController {
     }
 
     // 입금
-    @PostMapping("/deposit")
-    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> deposit( @Valid @RequestBody CashTransactionResponseDto requestDto) {
+    @PostMapping("/deposit/{userId}")
+    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> deposit(@Valid @RequestBody TransferRequestDto requestDto ,@RequestBody String userId) {
         try {
-            CashTransactionResponseDto updatedAccount = accountService.deposit(requestDto.getAccountNumber(), requestDto.getAmount());
+            CashTransactionResponseDto updatedAccount = accountService.deposit(requestDto.getToAccountNumber(), requestDto.getAmount(),userId);
 
             return ResponseEntity.ok(ApiResponseUser.success("입금이 완료되었습니다.", updatedAccount));
         } catch (RuntimeException e) {
@@ -97,10 +98,10 @@ public class AccountController {
         }
     }
     //송금
-    @PostMapping("/remittance")
-    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> remittance(@Valid @RequestBody TransferRequestDto requestDto) {
+    @PostMapping("/remittance/{userId}")
+    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> remittance(@Valid @RequestBody TransferRequestDto requestDto,@RequestBody String userId) {
         try{
-            CashTransactionResponseDto account = accountService.remittance(requestDto);
+            CashTransactionResponseDto account = accountService.remittance(requestDto, userId);
             return ResponseEntity.ok(ApiResponseUser.success("출금이 완료되었습니다.", account));
         }catch(Exception e){
             return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
@@ -108,15 +109,27 @@ public class AccountController {
     }
 
     // 출금
-    @PostMapping("/{accountNumber}/withdraw")
-    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> withdraw(@PathVariable String accountNumber,
-                                                                       @Valid @RequestBody TransferRequestDto requestDto) {
+    @PostMapping("/withdraw/{userId}")
+    public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> withdraw( @Valid @RequestBody TransferRequestDto requestDto,@RequestBody String userId) {
         try {
-            CashTransactionResponseDto updatedAccount = accountService.withdraw(accountNumber, requestDto.getAmount());
+            CashTransactionResponseDto updatedAccount = accountService.withdraw(requestDto.getFromAccountNumber(),requestDto.getAmount(),userId);
 
             return ResponseEntity.ok(ApiResponseUser.success("출금이 완료되었습니다.", updatedAccount));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(ApiResponseUser.error(e.getMessage()));
+        }
+    }
+    //계좌 삭제
+    @GetMapping("/delete/{number}")
+    public ResponseEntity deleteAccount(@PathVariable String number) {
+        try{
+            accountService.deleteByAccountNumber(number);
+
+            return ResponseEntity.ok().build();
+        }catch(RuntimeException e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+
         }
     }
 
@@ -126,8 +139,6 @@ public class AccountController {
         account.setCustomerId(dto.getCustomerId());
         account.setProductName(dto.getProductName());
         account.setAmount(dto.getAmount());
-        account.setOpeningDate(dto.getOpeningDate());
-        account.setClosingDate(dto.getClosingDate());
         account.setProductType(dto.getProductType());
         return account;
     }

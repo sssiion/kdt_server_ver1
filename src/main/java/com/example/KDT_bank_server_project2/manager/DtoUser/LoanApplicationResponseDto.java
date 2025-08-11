@@ -23,6 +23,7 @@ public class LoanApplicationResponseDto {
     private BigDecimal requestedAmount; // 요청받은 금액
     private LocalDateTime applicationDate;
     private LocalDateTime approvalDate;
+    private String status;
     private String approvedBy;
     private String rejectionReason;
     private String targetAccountNumber;
@@ -33,7 +34,7 @@ public class LoanApplicationResponseDto {
 
         this.productName = application.getProductName();
         this.requestedAmount = application.getRequestedAmount();
-
+        this.status = application.getStatus().toString();
         this.applicationDate = application.getApplicationDate();
         this.approvalDate = application.getApprovalDate();
         this.approvedBy = application.getApprovedBy();

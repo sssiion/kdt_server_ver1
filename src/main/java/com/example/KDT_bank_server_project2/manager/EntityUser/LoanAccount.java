@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class LoanAccount { // 대출 계좌
     @Id
-    @Column(name = "loan_id", length = 20)
+    @Column(name = "loan_id", length = 13, unique = true, nullable = false)
     private String loanId; //계좌 번호
 
     @Column(name = "customer_id", nullable = false)

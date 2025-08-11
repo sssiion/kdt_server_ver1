@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface CashTransactionRepository extends JpaRepository<CashTransaction, String> {
 
-    List<CashTransaction> findByAccountNumber(String accountNumber);
+    List<CashTransaction> findByAccountNumberEquals(String accountNumber);
     // 계좌번호로 거래 내역 조회
 
     List<CashTransaction> findByAccountNumberOrderByTransactionDateDesc(String accountNumber);

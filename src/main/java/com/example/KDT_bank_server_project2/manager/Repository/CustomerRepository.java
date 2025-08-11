@@ -21,7 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
     Optional<Customer> findByResidentNumber(String residentNumber);
     // 주민번호로 고객 찾기
 
-    Customer findByResidentNumberAndName(String name, String residentNumber);
+    Optional<Customer> findByResidentNumberAndName(String name, String residentNumber);
 
     boolean existsByEmail(String email);
     // 이메일 중복 확인

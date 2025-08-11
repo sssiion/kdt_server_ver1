@@ -36,4 +36,8 @@ public class CashTransactionResponseDto {
                 ", 거래유형: " + transactionType +
                 ", 금액: " + amount);
     }
+
+    public CashTransactionResponseDto() {
+
+    }
 }

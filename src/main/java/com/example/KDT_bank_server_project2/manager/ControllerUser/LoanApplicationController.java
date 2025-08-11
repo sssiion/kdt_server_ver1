@@ -1,5 +1,7 @@
 package com.example.KDT_bank_server_project2.manager.ControllerUser;
 
+import com.example.KDT_bank_server_project2.manager.DtoUser.LoanApplicationCreateRequestDto;
+import com.example.KDT_bank_server_project2.manager.DtoUser.LoanApplicationResponseDto;
 import com.example.KDT_bank_server_project2.manager.EntityUser.LoanApplication;
 import com.example.KDT_bank_server_project2.manager.ServiceUser.LoanApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/loan-applications")
@@ -28,10 +32,11 @@ public class LoanApplicationController {
 
     // 대출 신청 생성
     @PostMapping
-    public ResponseEntity<LoanApplication> createLoanApplication(@RequestBody LoanApplication loanApplication) {
+    public ResponseEntity<LoanApplicationResponseDto> createLoanApplication(@RequestBody LoanApplicationCreateRequestDto loanApplication) {
         try {
-            LoanApplication createdApplication = loanApplicationService.createLoanApplication(loanApplication);
-            return ResponseEntity.ok(createdApplication);
+            LoanApplication application = new LoanApplication(loanApplication);
+            LoanApplication createdApplication = loanApplicationService.createLoanApplication(application);
+            return ResponseEntity.ok(new LoanApplicationResponseDto(createdApplication));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -39,48 +44,57 @@ public class LoanApplicationController {
 
     // 모든 대출 신청 조회
     @GetMapping
-    public ResponseEntity<List<LoanApplication>> getAllLoanApplications() {
+    public ResponseEntity<List<LoanApplicationResponseDto>> getAllLoanApplications() {
         List<LoanApplication> applications = loanApplicationService.getAllLoanApplications();
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 
     // ID로 대출 신청 조회
     @GetMapping("/{id}")
-    public ResponseEntity<LoanApplication> getLoanApplicationById(@PathVariable String id) {
+    public ResponseEntity<LoanApplicationResponseDto> getLoanApplicationById(@PathVariable String id) {
         Optional<LoanApplication> application = loanApplicationService.getLoanApplicationById(id);
-        return application.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        LoanApplicationResponseDto dto = new LoanApplicationResponseDto(application.get());
+        return ResponseEntity.ok(dto);
     }
 
     // 고객별 대출 신청 조회
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<LoanApplication>> getLoanApplicationsByCustomerId(@PathVariable String customerId) {
+    public ResponseEntity<List<LoanApplicationResponseDto>> getLoanApplicationsByCustomerId(@PathVariable String customerId) {
         List<LoanApplication> applications = loanApplicationService.getLoanApplicationsByCustomerId(customerId);
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 
 
     // 대기 중인 대출 신청 조회
     @GetMapping("/pending")
-    public ResponseEntity<List<LoanApplication>> getPendingApplications() {
+    public ResponseEntity<List<LoanApplicationResponseDto>> getPendingApplications() {
         List<LoanApplication> applications = loanApplicationService.getPendingApplications();
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 
     // 상품별 대출 신청 조회
     @GetMapping("/product/{productName}")
-    public ResponseEntity<List<LoanApplication>> getLoanApplicationsByProductName(@PathVariable String productName) {
+    public ResponseEntity<List<LoanApplicationResponseDto>> getLoanApplicationsByProductName(@PathVariable String productName) {
         List<LoanApplication> applications = loanApplicationService.getLoanApplicationsByProductName(productName);
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 
     // 대출 신청 승인
     @PatchMapping("/{applicationId}/approve")
-    public ResponseEntity<LoanApplication> approveLoanApplication(@PathVariable String applicationId,
+    public ResponseEntity<LoanApplicationResponseDto> approveLoanApplication(@PathVariable String applicationId,
                                                                   @RequestParam String approverId) {
         try {
             LoanApplication approvedApplication = loanApplicationService.approveLoanApplication(applicationId, approverId);
-            return ResponseEntity.ok(approvedApplication);
+            LoanApplicationResponseDto dto = new LoanApplicationResponseDto(approvedApplication);
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -88,11 +102,11 @@ public class LoanApplicationController {
 
     // 대출 신청 거절
     @PatchMapping("/{applicationId}/reject")
-    public ResponseEntity<LoanApplication> rejectLoanApplication(@PathVariable String applicationId,
+    public ResponseEntity<LoanApplicationResponseDto> rejectLoanApplication(@PathVariable String applicationId,
                                                                  @RequestParam String rejectionReason) {
         try {
             LoanApplication rejectedApplication = loanApplicationService.rejectLoanApplication(applicationId, rejectionReason);
-            return ResponseEntity.ok(rejectedApplication);
+            return ResponseEntity.ok(new LoanApplicationResponseDto(rejectedApplication));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -100,10 +114,10 @@ public class LoanApplicationController {
 
     // 대출 신청 취소
     @PatchMapping("/{applicationId}/cancel")
-    public ResponseEntity<LoanApplication> cancelLoanApplication(@PathVariable String applicationId) {
+    public ResponseEntity<LoanApplicationResponseDto> cancelLoanApplication(@PathVariable String applicationId) {
         try {
             LoanApplication cancelledApplication = loanApplicationService.cancelLoanApplication(applicationId);
-            return ResponseEntity.ok(cancelledApplication);
+            return ResponseEntity.ok(new LoanApplicationResponseDto(cancelledApplication));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -118,20 +132,24 @@ public class LoanApplicationController {
 
     // 기간별 신청 조회
     @GetMapping("/date-range")
-    public ResponseEntity<List<LoanApplication>> getApplicationsByDateRange(
+    public ResponseEntity<List<LoanApplicationResponseDto>> getApplicationsByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
         List<LoanApplication> applications = loanApplicationService.getApplicationsByDateRange(startDate, endDate);
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 
     // 기간별 승인 조회
     @GetMapping("/approvals/date-range")
-    public ResponseEntity<List<LoanApplication>> getApprovalsByDateRange(
+    public ResponseEntity<List<LoanApplicationResponseDto>> getApprovalsByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
         List<LoanApplication> applications = loanApplicationService.getApprovalsByDateRange(startDate, endDate);
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 
     // 특정 기간 동안 승인된 총 대출 금액
@@ -145,20 +163,24 @@ public class LoanApplicationController {
 
     // 최소 신청 금액 이상인 대출 신청 조회
     @GetMapping("/min-amount/{minAmount}")
-    public ResponseEntity<List<LoanApplication>> getApplicationsByMinAmount(@PathVariable BigDecimal minAmount) {
+    public ResponseEntity<List<LoanApplicationResponseDto>> getApplicationsByMinAmount(@PathVariable BigDecimal minAmount) {
         List<LoanApplication> applications = loanApplicationService.getApplicationsByMinAmount(minAmount);
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 
     // 상품별 대출 신청 조회 (페이지네이션)
     @GetMapping("/product/{productName}/")
-    public ResponseEntity<List<LoanApplication>> getApplicationsByProductAndStatus(
+    public ResponseEntity<List<LoanApplicationResponseDto>> getApplicationsByProductAndStatus(
             @PathVariable String productName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<LoanApplication> applications = loanApplicationService.getApplicationsByProductAndStatus(
                 productName, pageable);
-        return ResponseEntity.ok(applications);
+        List<LoanApplicationResponseDto> list =  new ArrayList<>();
+        list.addAll(applications.stream().map(LoanApplicationResponseDto::new).toList());
+        return ResponseEntity.ok(list);
     }
 }

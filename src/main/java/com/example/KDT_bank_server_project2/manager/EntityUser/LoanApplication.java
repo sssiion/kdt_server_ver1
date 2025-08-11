@@ -1,5 +1,6 @@
 package com.example.KDT_bank_server_project2.manager.EntityUser;
 
+import com.example.KDT_bank_server_project2.manager.DtoUser.LoanApplicationCreateRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -67,6 +68,13 @@ public class LoanApplication { //대출 계좌 기록
         if (status == null) {
             status = ApplicationStatus.PENDING;
         }
+    }
+    public LoanApplication(LoanApplicationCreateRequestDto dto){
+        this.customerId = dto.getCustomerId();
+        this.productName = dto.getProductName();
+        this.requestedAmount = dto.getRequestedAmount();
+        this.targetAccountNumber = dto.getTargetAccountNumber();
+
     }
 
 }

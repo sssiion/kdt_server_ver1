@@ -20,6 +20,7 @@ public class AccountResponseDto { //계정 응답
 
     private String accountNumber; // 계좌번호
     private String customerId; // 사용자 id
+    private String productName; // 상품명
     private BigDecimal amount;  // 총금액
     private String productType; // 대출, 예금
     private LocalDateTime createdAt; // 만들어진 날

@@ -28,7 +28,7 @@ public class CashTransactionController {
 
 
     // 거래 기록 생성 (입금/출금/이체)
-    public CashTransactionResponseDto createTransaction(CashTransactionCreateRequestDto requestDto) {
+    public CashTransactionResponseDto createTransaction(CashTransactionResponseDto requestDto) {
         try {
             CashTransaction transaction = cashTransactionService.createTransaction(
                     requestDto.getAccountNumber(),
@@ -36,8 +36,10 @@ public class CashTransactionController {
                     CashTransaction.TransactionType.valueOf(requestDto.getTransactionType()),
                     requestDto.getAmount()
             );
+
             return  new CashTransactionResponseDto(transaction);
         } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
             return null;
         }
     }

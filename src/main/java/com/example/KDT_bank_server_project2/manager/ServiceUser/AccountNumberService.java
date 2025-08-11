@@ -80,7 +80,7 @@ public class AccountNumberService {
                 sb.append(ThreadLocalRandom.current().nextInt(0, 10));
             }
 
-            loanId = sb.toString();
+            loanId = sb.toString().trim();
             attempts++;
 
             if (attempts >= maxAttempts) {

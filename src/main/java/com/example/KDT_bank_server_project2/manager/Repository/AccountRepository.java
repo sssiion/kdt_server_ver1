@@ -27,6 +27,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     List<Account> findByProductType(String productType);
     // 상품 유형별 계좌 조회
 
+
     Optional<Account> findByAccountNumber(String accountNumber);
     // 계좌번호로 계좌 찾기
 
@@ -42,6 +43,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     List<Account> findByMinAmountOrderByAmountDesc(@Param("minAmount") BigDecimal minAmount);
     // 최소 잔액 이상인 계좌를 잔액순으로 조회
 
+    void deleteByAccountNumber(String accountNumber);
 
 
 

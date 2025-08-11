@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,7 +65,13 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<ApiResponseUser<List<ProductResponseDto>>> getProductsByProductCategory(@PathVariable String category) {
+        List<ProductResponseDto> list = new ArrayList<>();
+        list.addAll(productService.getProductsByProductCategory(category).stream().map(ProductResponseDto::new).toList());
+        return ResponseEntity.ok(ApiResponseUser.success(list));
 
+    }
 
     // 상품 검색
     @GetMapping("/search")

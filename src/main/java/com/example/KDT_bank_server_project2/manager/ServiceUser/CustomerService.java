@@ -50,7 +50,7 @@ public class CustomerService {
         return customerRepository.findByEmail(email);
     }
     @Transactional
-    public Customer getCustomerByNameAndResidentNumber(String name, String number) {
+    public Optional<Customer> getCustomerByNameAndResidentNumber(String name, String number) {
 
         return customerRepository.findByResidentNumberAndName(name, number);
     }

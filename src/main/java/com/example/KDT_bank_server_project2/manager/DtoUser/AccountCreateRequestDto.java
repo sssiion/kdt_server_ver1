@@ -25,8 +25,6 @@ public class AccountCreateRequestDto {
     private String productName;
 
     private BigDecimal amount;
-    private LocalDate openingDate;
-    private LocalDate closingDate;
 
     @NotBlank(message = "상품 유형은 필수입니다")
     private String productType;

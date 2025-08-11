@@ -51,7 +51,8 @@ public class CustomerController {
 
     @GetMapping("/{name}/{number}")
     public ResponseEntity<ApiResponseUser<CustomerResponseDto>> getCustomerByNameAndResidentNumber(@PathVariable String name, @PathVariable String number) {
-        Customer customer = customerService.getCustomerByNameAndResidentNumber(name, number);
+        Customer customer = customerService.getCustomerByResidentNumber(number).orElseThrow();
+        if (customer == null) { System.out.println("널임.");}
         CustomerResponseDto dto = new CustomerResponseDto(customer);
 
         return ResponseEntity.ok(ApiResponseUser.success("정보조회 성공",dto));

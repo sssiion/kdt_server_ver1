@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Account { //계좌 생성
     @Id
-    @Column(name = "account_number")
+    @Column(name = "account_number", length = 13, nullable = false, unique = true)
     private String accountNumber;
 
     @Column(name = "customer_id", nullable = false)
     private String customerId;
 
     @Column(name = "product_name", nullable = false, length = 100)
-    private String productName;
+    private String productName="값 없음";
 
     @Column(precision = 30, scale = 2)
     private BigDecimal amount;
@@ -38,7 +38,7 @@ public class Account { //계좌 생성
 
 
 
-    @Column(name = "product_type", nullable = false, length = 50)
+    @Column(name = "product_type", length = 50)
     private String productType;
 
     @Column(name = "created_at")

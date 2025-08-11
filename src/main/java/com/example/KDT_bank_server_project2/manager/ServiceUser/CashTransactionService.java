@@ -45,12 +45,13 @@ public class CashTransactionService {
                 throw new RuntimeException("지원하지 않는 거래 유형입니다");
         }
 
-        CashTransaction transaction = new CashTransaction();
-        transaction.setAccountNumber(accountNumber);
+        CashTransaction transaction = new CashTransaction(account);
         transaction.setOtherAccountNumber(otherAccountNumber);
         transaction.setTransactionType(transactionType);
-        transaction.setAmount(balanceAfter);
+        transaction.setAmount(amount);
+        transaction.setTotalAmount(balanceAfter);
         transaction.setTransactionDate(LocalDateTime.now());
+
 
         return cashTransactionRepository.save(transaction);
     }

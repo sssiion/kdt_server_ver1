@@ -1,8 +1,10 @@
 package com.example.KDT_bank_server_project2.manager.Controller;
 
+import com.example.KDT_bank_server_project2.manager.DtoUser.AccountResponseDto;
 import com.example.KDT_bank_server_project2.manager.Entity.User;
 import com.example.KDT_bank_server_project2.manager.EntityUser.*;
 import com.example.KDT_bank_server_project2.manager.Repository.*;
+import com.example.KDT_bank_server_project2.manager.ServiceUser.AccountNumberService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,12 +65,12 @@ public class InitialUserConfig {
             CashTransactionRepository cashTransactionRepository,
             LoanAccountRepository loanAccountRepository,
             LoanApplicationRepository loanApplicationRepository,
-            AgreementRepository agreementRepository
-    ) {
+            AgreementRepository agreementRepository,
+            AccountNumberService accountNumberService) {
         return args -> {
 
             // 1. 고객
-            var customerOpt = customerRepository.findByEmail("test@example.com");
+            var customerOpt = customerRepository.findByResidentNumber("900101-1234567");
             var customer = customerOpt.orElseGet(() -> {
                 Customer cust = new Customer();
                 cust.setName("홍길동");
@@ -78,6 +80,7 @@ public class InitialUserConfig {
                 cust.setResidentNumber("900101-1234567");
                 cust.setAddress("서울시 강남구");
                 return customerRepository.save(cust);
+
             });
 
             if (productRepository.findByProductName("정기예금A").isEmpty()) {
@@ -92,8 +95,8 @@ public class InitialUserConfig {
                 productRepository.save(product);
                 // 3. 계좌
                 Account account = new Account();
-                account.setAccountNumber("1000000001");
-                account.setCustomerId(String.valueOf(customer.getId()));
+                account.setAccountNumber(accountNumberService.generateUniqueAccountNumber());
+                account.setCustomerId(customer.getId());
                 account.setProductName(product.getProductName());
                 account.setAmount(BigDecimal.valueOf(1_000_000));
                 account.setOpeningDate(LocalDate.now());
@@ -108,7 +111,7 @@ public class InitialUserConfig {
                 // 7. 약정
                 Agreement agreement = new Agreement();
                 agreement.setAgreementId("AG-00001");
-                agreement.setCustomerId(String.valueOf(customer.getId()));
+                agreement.setCustomerId(customer.getId());
                 agreement.setProductName(product.getProductName());
                 agreement.setAgreementDate(LocalDate.now());
                 agreement.setExpirationDate(LocalDate.now().plusYears(1));
@@ -122,8 +125,8 @@ public class InitialUserConfig {
 
             // 5. 대출 계좌
             LoanAccount loanAccount = new LoanAccount();
-            loanAccount.setLoanId("LN-00001");
-            loanAccount.setCustomerId(String.valueOf(customer.getId()));
+            loanAccount.setLoanId(accountNumberService.generateUniqueAccountNumber());
+            loanAccount.setCustomerId(customer.getId());
             loanAccount.setProductName("주택담보대출");
             loanAccount.setTotalAmount(BigDecimal.valueOf(50_000_000));
             loanAccount.setInterestRate(BigDecimal.valueOf(4.5));
@@ -133,7 +136,7 @@ public class InitialUserConfig {
 
             // 6. 대출 신청
             LoanApplication application = new LoanApplication();
-            application.setCustomerId(String.valueOf(customer.getId()));
+            application.setCustomerId(customer.getId());
             application.setProductName("주택담보대출");
             application.setRequestedAmount(BigDecimal.valueOf(10_000_000));
             application.setStatus(LoanApplication.ApplicationStatus.PENDING);
