@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface ChatMessageRepository extends JpaRepository<ChatMessage, String> {
+public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
 
-    List<ChatMessage> findByRoomUuidOrderBySentAtAsc(String roomUuid);
+    List<ChatMessage> findByRoomIdOrderBySentAtAsc(Long roomId);
     // 특정 채팅방의 모든 메시지 (시간순 정렬)
 
-    List<ChatMessage> findByRoomUuidOrderBySentAtDesc(String roomUuid, Pageable pageable);
+    List<ChatMessage> findByRoomIdOrderBySentAtDesc(Long roomId, Pageable pageable);
     // 특정 채팅방의 최근 메시지 ( 페이지네이션)
 
     List<ChatMessage> findBySenderIdOrderBySentAtDesc(String senderId);
@@ -27,12 +27,12 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, String
 
 
 
-    @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomUuid = :roomUuid AND cm.content LIKE %:keyword% ORDER BY cm.sentAt DESC")
-    List<ChatMessage> searchMessageByContent(@Param("roomUuid") String roomUuid, @Param("keyword") String keyword);
+    @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomId = :roomId AND cm.content LIKE %:keyword% ORDER BY cm.sentAt DESC")
+    List<ChatMessage> searchMessageByContent(@Param("roomId") Long roomId, @Param("keyword") String keyword);
     // 메시지 내용으로 검색
 
-    @Query("SELECT cm FROM ChatMessage  cm WHERE cm.roomUuid = :roomUuid ORDER BY cm.sentAt DESC")
-    List<ChatMessage> findLatestMessagesByRoomUuid(@Param("roomUuid") String roomUuid, Pageable pageable);
+    @Query("SELECT cm FROM ChatMessage  cm WHERE cm.roomId = :roomId ORDER BY cm.sentAt DESC")
+    List<ChatMessage> findLatestMessagesByRoomId(@Param("roomId") String roomId, Pageable pageable);
     //특정 방의 최근 메시지 1개
 
 

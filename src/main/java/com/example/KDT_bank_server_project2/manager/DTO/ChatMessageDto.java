@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatMessageDto {
-    private String roomId;
+    private Long roomId;
     private String userId;
     private String content;
     private String type;
@@ -19,7 +19,7 @@ public class ChatMessageDto {
     private String sentAt;
 
     public ChatMessageDto(ChatMessage chatMessage) {
-        this.roomId = chatMessage.getRoomUuid();
+        this.roomId = chatMessage.getRoomId();
         this.userId = chatMessage.getSenderId();
         this.content = chatMessage.getContent();
         this.type = chatMessage.getType().toString();

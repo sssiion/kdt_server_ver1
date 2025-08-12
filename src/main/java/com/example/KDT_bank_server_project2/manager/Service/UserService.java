@@ -81,12 +81,12 @@ public class UserService {
     }
 
     //사용자가 참가한 방 목록 조회
-    public Map<String, String> getUserByJoinedRooms(String userId){
+    public Map<Long, String> getUserByJoinedRooms(String userId){
         User user = userRepository.findByUserId(userId) //발신자 조회
                 .orElseThrow(()-> new RuntimeException("발신자 찾을 수 없음"));
         System.out.println("사용자 ID"+user.getUserId());
 
-        Map<String, String> roomdata= user.getJoinedRooms();
+        Map<Long, String> roomdata= user.getJoinedRooms();
         // ✅ 강제 초기화 후 안전한 출력
         if (roomdata != null) {
             roomdata.size(); // 컬렉션 강제 초기화

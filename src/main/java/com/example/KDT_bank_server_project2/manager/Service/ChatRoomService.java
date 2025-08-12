@@ -29,14 +29,14 @@ public class ChatRoomService {
         // 방 생성
     }
 
-    public ChatRoom getRoom(String roomId){
+    public ChatRoom getRoom(Long roomId){
         ChatRoom room = chatRoomRepository.findByRoomId(roomId)
                 .orElseThrow(()-> new IllegalArgumentException("채팅방 찾을 수 없음"));
         return room;
     }
 
 
-    public void joinRoom(String userId, String roomId){
+    public void joinRoom(String userId, Long roomId){
         User user  = userRepository.findByUserId(userId)
                 .orElseThrow(()-> new EntityNotFoundException(" 사용자를 찾을 수 없습니다"));
         ChatRoom room = chatRoomRepository.findByRoomId(roomId)
@@ -50,7 +50,7 @@ public class ChatRoomService {
         System.out.println("joinRoom 실행됨 service임");
     }
 
-    public void leaveRoom(String roomId, String userId){
+    public void leaveRoom(Long roomId, String userId){
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(()-> new EntityNotFoundException("사용자 찾을 수 없음"));
         ChatRoom room = chatRoomRepository.findByRoomId(roomId)
@@ -71,7 +71,7 @@ public class ChatRoomService {
     } // 모든 방 객체 가져오기
     //특정 방 조회
     @Transactional(readOnly = true)
-    public ChatRoom findByroomId(String roomId){
+    public ChatRoom findByroomId(Long roomId){
         return chatRoomRepository.findByRoomId(roomId)
                 .orElseThrow(()->new IllegalArgumentException("채팅방을 찾을 수 없음"));}
     // 방 검색

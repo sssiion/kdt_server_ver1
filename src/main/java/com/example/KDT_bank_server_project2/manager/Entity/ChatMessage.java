@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -19,23 +20,27 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ChatMessage {
     @Id
+    @Column(name="messagId", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "sender_id", nullable = false)
     //하는일 : name, 실제 DB 컬럼명 지정 , unique 중복불가, nullable null 허용 여부(false: 필수입력) , length 문자열 최대 길이 설정
     // column 없는 경우 필두명 그대로 컬럼명 사용, 기본 설정 적용
     private String senderId;
 
-    @Column(name="room_uuid", nullable = false)
-    private String roomUuid;
-
+    @Setter
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column(name="messageroomId")
+    private Long roomId;
+
+    @Setter
     @Enumerated(EnumType.STRING)
     private MessageType type;
 
+    @Setter
     @Column(name="sent_at")
     private LocalDateTime sentAt;
 
@@ -60,22 +65,14 @@ public class ChatMessage {
         sentAt = LocalDateTime.now();
     }
 
-    public ChatMessage(String senderId, String roomUuid, String content, ChatMessage.MessageType type) {
+    public ChatMessage(String senderId, Long roomId, String content, ChatMessage.MessageType type) {
         this.senderId = senderId;
-        this.roomUuid = roomUuid;
         this.content = content;
+        this.roomId = roomId;
         this.type = type;
 
 
     }
-
-
-    public void setContent(String content) { this.content = content; }
-
-    public void setType(MessageType type) { this.type = type; }
-
-    public void setSentAt(LocalDateTime sentAt) { this.sentAt = sentAt; }
-
 
 
 }

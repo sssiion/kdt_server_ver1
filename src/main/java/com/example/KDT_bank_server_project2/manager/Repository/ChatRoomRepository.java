@@ -12,12 +12,12 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface ChatRoomRepository extends JpaRepository<ChatRoom, String> {
+public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
-    Optional<ChatRoom> findByRoomId(String roomId);
+    Optional<ChatRoom> findByRoomId(Long roomId);
     // 룸 UUID로 채팅방 찾기
 
-    boolean existsByRoomId(String roomId);
+    boolean existsByRoomId(Long roomId);
     //룸 UUID 존재 여부 확인
 
     List<ChatRoom> findByRoomNameContaining(String keyword);
@@ -34,6 +34,6 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, String> {
 
     /* 특정 사용자가 참가한 방 목록 (user_joined_rooms 테이블 활용) */
     @Query("SELECT r FROM ChatRoom r WHERE r.roomId IN :roomIds ORDER BY r.createdAt DESC")
-    List<ChatRoom> findRoomsByUserId(@Param("roomId") Set<String> roomIds);
+    List<ChatRoom> findRoomsByUserId(@Param("roomId") Set<Long> roomIds);
 
 }

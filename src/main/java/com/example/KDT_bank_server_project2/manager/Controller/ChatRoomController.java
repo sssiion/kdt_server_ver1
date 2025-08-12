@@ -56,7 +56,7 @@ public class ChatRoomController {
     }
 
     @GetMapping("/{roomId}") //특정 채팅방 조회
-    public ResponseEntity<ApiResponse<ChatRoomResponseDto>> getRoom(@PathVariable String roomId ){
+    public ResponseEntity<ApiResponse<ChatRoomResponseDto>> getRoom(@PathVariable Long roomId ){
         try{
             ChatRoom room = chatRoomService.getRoom(roomId);
             ChatRoomResponseDto response = new ChatRoomResponseDto(room);
@@ -68,7 +68,7 @@ public class ChatRoomController {
 
     }
     @PostMapping("/{roomId}/join")
-    public ResponseEntity<ApiResponse<String>> joinRoom(@PathVariable String roomId,  @RequestParam String userId){
+    public ResponseEntity<ApiResponse<String>> joinRoom(@PathVariable Long roomId,  @RequestParam String userId){
         try{
             chatRoomService.joinRoom(userId,roomId);
             return ResponseEntity.ok(ApiResponse.success("방참가 성공", null));
@@ -79,7 +79,7 @@ public class ChatRoomController {
         }
     }
     @DeleteMapping("/{roomId}/leave")
-    public ResponseEntity<ApiResponse<String>> leaveRoom(@PathVariable String roomId, @RequestParam String userId){
+    public ResponseEntity<ApiResponse<String>> leaveRoom(@PathVariable Long roomId, @RequestParam String userId){
         try{
             chatRoomService.leaveRoom(roomId,userId);
             return ResponseEntity.ok(ApiResponse.success("방 나가기 성공", null));

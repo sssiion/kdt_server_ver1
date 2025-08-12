@@ -20,7 +20,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/chatrooms/**").permitAll()  // 채팅방 API 허용
                         .requestMatchers("/api/chatrooms?**").permitAll()
                         .requestMatchers("/api/chatrooms").permitAll()
-                        .requestMatchers("/ws/**").permitAll()  // WebSocket 허용
+                        .requestMatchers("/ws/", "/ws", "/sockjs/", "/websocket/", "/info/","/ws/**").permitAll()  // WebSocket 허용
                         .requestMatchers("/", "/health").permitAll()  // 루트, 헬스체크 허용
                         .anyRequest().permitAll()  // 나머지도 모두 허용
                 )

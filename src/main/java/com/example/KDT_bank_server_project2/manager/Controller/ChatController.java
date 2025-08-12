@@ -56,9 +56,9 @@ public class ChatController {
     public void removeUser(@Payload ChatMessageDto dto,SimpMessageHeaderAccessor headers) {
         try{
             String userId = (String)headers.getSessionAttributes().get("userId");
-            String roomId = (String)headers.getSessionAttributes().get("roomId");
+            Long roomId = (Long)headers.getSessionAttributes().get("roomId");
             if(userId !=null && roomId !=null){
-                chatRoomService.leaveRoom(userId,roomId);
+                chatRoomService.leaveRoom(roomId,userId);
                 ChatMessage leaveMessage = chatMessageService.saveLeaveMessage(userId,roomId);
 
                 ChatMessageDto responseDto = new ChatMessageDto(leaveMessage);

@@ -19,7 +19,9 @@ import java.util.UUID;
 public class ChatRoom {
 
     @Id
-    private String roomId;  //방 id
+    @Column(name = "roomId", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long roomId;  //방 id
 
     @Column(name = "room_name", nullable = false)
     private String roomName;
@@ -33,9 +35,7 @@ public class ChatRoom {
 
     @PrePersist
     protected void onCreate() {
-        if (roomId == null) {
-            roomId = UUID.randomUUID().toString();
-        }
+
         if (createdAt == null) {
             createdAt = LocalDateTime.now(); // ← 핵심 수정
         }
@@ -46,7 +46,6 @@ public class ChatRoom {
 
     public ChatRoom(String roomName){
         this.roomName = roomName;
-        this.roomId = UUID.randomUUID().toString();
         this.userCount = 0;
         this.createdAt = LocalDateTime.now();
     }

@@ -22,7 +22,7 @@ public class MessageController {
     private final ChatMessageService chatMessageService;
 
     @GetMapping("/{roomId}")
-    public ResponseEntity<ApiResponse<List<ChatMessageDto>>> getMessage(@PathVariable String roomId) {
+    public ResponseEntity<ApiResponse<List<ChatMessageDto>>> getMessage(@PathVariable Long roomId) {
         try{
             return ResponseEntity.ok(ApiResponse.success("사용자 조회 성공", chatMessageService.getRoomMessages(roomId)));
 

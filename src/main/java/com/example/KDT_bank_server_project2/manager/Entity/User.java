@@ -53,9 +53,9 @@ public class User {
     @Getter
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_joined_rooms", joinColumns = @JoinColumn(name = "user_id"))
-    @MapKeyColumn(name = "room_id")
+    @MapKeyColumn(name="joinroomId")
     @Column(name = "room_name")
-    private Map<String, String> joinedRooms= new HashMap<>();
+    private Map<Long, String> joinedRooms= new HashMap<>();
 
 
     public List<String> getAllUserTypes() {
@@ -116,16 +116,16 @@ public class User {
 
     public boolean isOnline() { return isOnline; }
 
-    public void joinedRooms(String roomId, String roomName){
+    public void joinedRooms(Long roomId, String roomName){
 
         this.joinedRooms.put(roomId, roomName);
     }
-    public void leaveRoom(String roomId){
+    public void leaveRoom(Long roomId){
         joinedRooms.remove(roomId);
     }
 
-    public boolean isInRoom(String roomId){
-        Map<String,String> joinedRooms = getJoinedRooms();
+    public boolean isInRoom(Long roomId){
+        Map<Long,String> joinedRooms = getJoinedRooms();
         return joinedRooms.containsKey(roomId);
     }
 

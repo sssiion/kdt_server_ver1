@@ -14,7 +14,7 @@ public class UserResponseDto {
     private String userName;
     private Boolean isOnline;
     private String userPhone;
-    private Map<String, String> joinedRoom;
+    private Map<Long, String> joinedRoom;
 
     public UserResponseDto(User user) {
         this.userId = user.getUserId();

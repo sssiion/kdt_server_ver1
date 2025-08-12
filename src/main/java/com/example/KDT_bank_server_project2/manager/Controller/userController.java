@@ -158,7 +158,7 @@ public class userController {
     public ResponseEntity<ApiResponse<List<ChatRoomResponseDto>>> getuserRooms(@PathVariable String userId){
         try{
             System.out.println(userId+"유저 아이디 줌");
-            Map<String, String> room = userService.getUserByJoinedRooms(userId);
+            Map<Long, String> room = userService.getUserByJoinedRooms(userId);
             System.out.println(room.values()+"참여한 방 Map 출력");
             if (room != null && !room.isEmpty()) {
                 System.out.println("전체 Map 내용:");
@@ -169,7 +169,7 @@ public class userController {
                 System.out.println("참가한 방이 없습니다.");
             }
             List<ChatRoomResponseDto> response = new ArrayList<>();
-            for( String roomId : room.keySet()){
+            for( Long roomId : room.keySet()){
                 response.add(new ChatRoomResponseDto(roomService.findByroomId(roomId)));
 
             }

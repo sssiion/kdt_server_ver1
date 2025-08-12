@@ -5,39 +5,62 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d87c8382-63c0-4d42-97a6-63fe98b9ae7c" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/resourceHashesCache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/ControllerUser/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/ControllerUser/AccountController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DtoUser/TransferRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DtoUser/TransferRequestDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/EntityUser/CashTransaction$TransactionType.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/EntityUser/CashTransaction$TransactionType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/EntityUser/CashTransaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/EntityUser/CashTransaction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Repository/AccountRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Repository/AccountRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/ServiceUser/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/ServiceUser/AccountService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/ServiceUser/CashTransactionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/ServiceUser/CashTransactionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/ChatController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/ChatRoomController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/ChatRoomController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/MessageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/MessageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/userController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Controller/userController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DTO/ChatMessageDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DTO/ChatMessageDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DTO/ChatRoomResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DTO/ChatRoomResponseDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DTO/UserResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/DTO/UserResponseDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/ChatMessage$MessageType.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/ChatMessage$MessageType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/ChatMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/ChatMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/ChatRoom.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/ChatRoom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/RabbitMQ/ChatMessageListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/RabbitMQ/ChatMessageListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/RabbitMQ/RabbitChatConsumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/RabbitMQ/RabbitChatConsumer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/RabbitMQ/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/RabbitMQ/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Repository/ChatMessageRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Repository/ChatMessageRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Repository/ChatRoomRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Repository/ChatRoomRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Service/ChatMessageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Service/ChatMessageService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Service/ChatRoomService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Service/ChatRoomService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/KDT_bank_server_project2/manager/Service/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AccountController.class.uniqueId1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AccountService.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AccountController.class.uniqueId3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/AccountService.class.uniqueId6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CashTransaction$TransactionType.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CashTransaction.class.uniqueId2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CashTransactionController.class.uniqueId4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CashTransactionRepository.class.uniqueId9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CashTransactionResponseDto.class.uniqueId5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CashTransactionService$1.class.uniqueId7" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/CashTransactionService.class.uniqueId1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/InitialUserConfig.class.uniqueId8" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/ControllerUser/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/ControllerUser/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DtoUser/TransferRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DtoUser/TransferRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/EntityUser/CashTransaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/EntityUser/CashTransaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Repository/AccountRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/ServiceUser/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/ServiceUser/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/ServiceUser/CashTransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/ServiceUser/CashTransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/ChatRoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/ChatRoomController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/userController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Controller/userController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DTO/ChatMessageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DTO/ChatMessageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DTO/ChatRoomResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DTO/ChatRoomResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DTO/UserResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/DTO/UserResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Entity/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Entity/ChatMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Entity/ChatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Entity/ChatRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/RabbitMQ/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/RabbitMQ/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Repository/ChatMessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Repository/ChatMessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Repository/ChatRoomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Repository/ChatRoomRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Service/ChatMessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Service/ChatMessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Service/ChatRoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Service/ChatRoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/KDT_bank_server_project2/manager/Service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,8 +189,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.resources: Compose 배포" />
         <item itemvalue="Docker.resources.mysql: Compose 배포" />
+        <item itemvalue="Docker.resources: Compose 배포" />
         <item itemvalue="Docker.resources.rabbitmq: Compose 배포" />
       </list>
     </recent_temporary>
