@@ -86,12 +86,13 @@ public class AccountService {
         // 2. 새 잔액 계산
         BigDecimal newBalance = account.getAmount().add(amount);
         account.setAmount(newBalance);
-        accountRepository.saveAndFlush(account);
-
         // 3. 거래 내역 저장
         CashTransaction tx = cashTransactionService.createTransaction(
-                account.getAccountNumber(), "", CashTransaction.TransactionType.입금, amount
+                account, "", CashTransaction.TransactionType.입금, amount
         );
+        accountRepository.saveAndFlush(account);
+
+
         
         return new CashTransactionResponseDto(tx);
     }
@@ -118,7 +119,7 @@ public class AccountService {
 
         // 4. 거래 내역 저장
         CashTransaction tx = cashTransactionService.createTransaction(
-                account.getAccountNumber(), "", CashTransaction.TransactionType.출금, amount
+                account, "", CashTransaction.TransactionType.출금, amount
         );
 
         return new CashTransactionResponseDto(tx);

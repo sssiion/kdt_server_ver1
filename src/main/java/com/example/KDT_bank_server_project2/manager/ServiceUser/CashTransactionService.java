@@ -24,13 +24,15 @@ public class CashTransactionService {
     private final AccountRepository accountRepository;
 
     // 거래 기록 생성
-    public CashTransaction createTransaction(String accountNumber,String otherAccountNumber, CashTransaction.TransactionType transactionType,
+    public CashTransaction createTransaction(Account account,String otherAccountNumber, CashTransaction.TransactionType transactionType,
                                              BigDecimal amount) {
-        // 계좌 존재 여부 확인
-        Account account = accountRepository.findByAccountNumber(accountNumber.trim())
-                .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
-        Account otherAccount = accountRepository.findByAccountNumber(otherAccountNumber)
-                .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + accountNumber));
+
+        CashTransaction transaction = new CashTransaction(account);
+        if( !otherAccountNumber.equals("") ) {
+            Account otherAccount = accountRepository.findByAccountNumber(otherAccountNumber)
+                    .orElseThrow(() -> new RuntimeException("계좌를 찾을 수 없습니다: " + otherAccountNumber));
+            transaction.setOtherAccountNumber(otherAccountNumber);
+        }
         BigDecimal balanceAfter;
 
         // 거래 유형에 따른 처리
@@ -41,12 +43,12 @@ public class CashTransactionService {
             case 출금:
                 balanceAfter = account.getAmount().subtract(amount);
                 break;
+
             default:
                 throw new RuntimeException("지원하지 않는 거래 유형입니다");
         }
 
-        CashTransaction transaction = new CashTransaction(account);
-        transaction.setOtherAccountNumber(otherAccountNumber);
+
         transaction.setTransactionType(transactionType);
         transaction.setAmount(amount);
         transaction.setTotalAmount(balanceAfter);

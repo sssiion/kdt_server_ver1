@@ -28,21 +28,21 @@ public class CashTransactionController {
 
 
     // 거래 기록 생성 (입금/출금/이체)
-    public CashTransactionResponseDto createTransaction(CashTransactionResponseDto requestDto) {
-        try {
-            CashTransaction transaction = cashTransactionService.createTransaction(
-                    requestDto.getAccountNumber(),
-                    requestDto.getOtherAccountNumber(),
-                    CashTransaction.TransactionType.valueOf(requestDto.getTransactionType()),
-                    requestDto.getAmount()
-            );
-
-            return  new CashTransactionResponseDto(transaction);
-        } catch (RuntimeException e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
-    }
+    //public CashTransactionResponseDto createTransaction(CashTransactionResponseDto requestDto) {
+    //    try {
+    //        CashTransaction transaction = cashTransactionService.createTransaction(
+    //                requestDto.getAccountNumber(),
+     //               requestDto.getOtherAccountNumber(),
+     //               CashTransaction.TransactionType.valueOf(requestDto.getTransactionType()),
+     //               requestDto.getAmount()
+     //       );
+//
+       //      return  new CashTransactionResponseDto(transaction);
+     //   } catch (RuntimeException e) {
+     //       System.err.println(e.getMessage());
+     //       return null;
+     //   }
+    //}
 
     // 계좌별 거래 내역 조회
     @GetMapping("/account/{accountNumber}")

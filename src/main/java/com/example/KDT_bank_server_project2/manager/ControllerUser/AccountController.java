@@ -51,19 +51,20 @@ public class AccountController {
     }
 
     /** 계좌번호로 단일 조회 */
-    //@GetMapping("/number/{accountNumber}")
-    //public ResponseEntity<ApiResponseUser<AccountResponseDto>> getAccountByNumber(
-    //        @PathVariable String accountNumber) {
-    //    Account account = accountService.getAccountByNumber(accountNumber);
-    //    return ResponseEntity.ok(ApiResponseUser.success(new AccountResponseDto(account)));
-    //}
+    @GetMapping("/number/{accountNumber}")
+    public ResponseEntity<ApiResponseUser<AccountResponseDto>> getAccountByNumber(
+            @PathVariable String accountNumber) {
+        Account account = accountService.getAccountByNumber(accountNumber);
+        return ResponseEntity.ok(ApiResponseUser.success(new AccountResponseDto(account)));
+    }
 
     /** 💰 입금 */
     @PostMapping("/deposit")
     public ResponseEntity<ApiResponseUser<CashTransactionResponseDto>> deposit(
             @RequestBody TransferRequestDto requestDto) {
+        System.out.println("입금1: "+requestDto);
         CashTransactionResponseDto result = accountService.deposit( requestDto.getToAccountNumber(), requestDto.getAmount());
-        System.out.println("입금1: "+result);
+
         return ResponseEntity.ok(ApiResponseUser.success("입금 완료", result));
     }
 
